@@ -6,7 +6,7 @@ export const LoginSchema = object({
     .max(50, "Su usuario debe ser menor a 50 caracteres"),
   password: string({ required_error: "Se requiere la contraseña" })
     .min(1, "La contraseña es requerida")
-    .min(6, "La contraseña debe tener al menos 8 caracteres")
+    .min(6, "La contraseña debe tener al menos 6 caracteres")
     .max(32, "La contraseña debe tener menos de 32 caracteres"),
 })
 

@@ -4,6 +4,8 @@ import { z } from "zod"
 import { LoginSchema } from '@/lib/zod';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { login } from "@/actions"
+
 
 import { Button } from "@/components/ui/button"
 import {
@@ -27,9 +29,8 @@ function FormLogin() {
         },
       })
       
-      function onSubmit(values: z.infer<typeof LoginSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
+      async function onSubmit(values: z.infer<typeof LoginSchema>) {
+        login(values);
         console.log(values)
       }
 

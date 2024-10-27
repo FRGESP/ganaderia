@@ -1,6 +1,12 @@
+import { getsession,roles } from "@/actions";
 import FormLogin from "@/components/ui/form-login";
 
-function Home() {
+async function Home() {
+  const session = await getsession();
+  if(session.islogged){
+    await roles();
+  }
+
   return (
     // <div className="h-screen flex flex-col justify-center items-center bg-gradient-to-r from-gray-300 via-white to-gray-300">
     //   <div className="w-40 h-auto mb-4">
