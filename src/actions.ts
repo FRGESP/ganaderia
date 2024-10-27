@@ -23,7 +23,6 @@ export const getsession = async () => {
   return session;
 };
 export const login = async (credentials: Credentials) => {
-  console.log(credentials);
   const session = await getsession();
 
   const response = await axios.post(

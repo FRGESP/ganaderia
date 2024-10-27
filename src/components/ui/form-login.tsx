@@ -5,7 +5,7 @@ import { LoginSchema } from '@/lib/zod';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { login } from "@/actions"
-
+import { AlertPro } from "./alerts-login";
 
 import { Button } from "@/components/ui/button"
 import {
@@ -30,7 +30,12 @@ function FormLogin() {
       })
       
       async function onSubmit(values: z.infer<typeof LoginSchema>) {
-        login(values);
+        const res = await login(values);
+        if(res== 0){
+          alert("Usuario incorrecto")
+        } else if(res == 1){
+          alert("Contraseña incorrecta")
+        }
         console.log(values)
       }
 
@@ -42,6 +47,7 @@ function FormLogin() {
           name="user"
           render={({ field }) => (
             <FormItem>
+              <AlertPro variant={"destructive"} tittle={"Hola"} body={"Esto es el cuerpo"} duracion={2}/>
               <FormLabel className="text-xl">Usuario</FormLabel>
               <FormControl>
                 <Input placeholder="Toque aquí para ingresar su usuario" {...field} className="border-gray-950 rounded-xl text-xl p-7"autoFocus/>

@@ -15,6 +15,7 @@ async function Home() {
     //   <div className="w-96 "><FormLogin /></div>
     //   <h2 className="mt-4">heyy</h2>
     // </div>
+    
 
     <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-r from-gray-300 via-white to-gray-300">
       <div className="w-40 h-auto mb-4">
