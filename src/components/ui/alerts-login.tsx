@@ -8,30 +8,30 @@ import {
   AlertTitle,
 } from "@/components/ui/alert"
  
-type AlertVariants =  "destructive" | "hidden" | "default" | null | undefined
+type AlertVariants =  "destructive" | "danger" | "info" | "hidden" | "default" | null | undefined
 
 interface AlertProps {
     variant: AlertVariants;
     tittle?: string;
     body: string;
-    duracion?: number;
+    duration?: number;
 }
 
 
 
 
-export function AlertPro({ variant, tittle, body, duracion }: AlertProps) {
+export function AlertPro({ variant, tittle, body, duration }: AlertProps) {
     const [visible, setVisible] = useState(true);
 
     useEffect(() => {
-        if(duracion){
+        if(duration){
             const timer = setTimeout(() => {
                 setVisible(false);
-            }, duracion*1000);
+            }, duration*1000);
             return () => clearTimeout(timer);
         }
         
-    }, [duracion])
+    }, [duration])
   return (
     <>
     {visible && (

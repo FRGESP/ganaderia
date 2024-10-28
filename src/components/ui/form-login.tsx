@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { login } from "@/actions"
 import { AlertPro } from "./alerts-login";
+import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button"
 import {
@@ -19,8 +20,42 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
  
-
 function FormLogin() {
+
+  const [showUserAlert, setUserAlert] = useState(false);
+  const [showPasswordAlert, setPasswordAlert] = useState(false);
+  const [showInfoAlert, setInfoAlert] = useState(false);
+
+  const handleShowInfoAlert = (set:number) => {
+    if(set == 0)
+    {
+      setInfoAlert(false);
+    }else{
+      setInfoAlert(true);
+    }
+    
+  }
+
+  const handleShowPasswordAlert = (set:number) => {
+    if(set == 0)
+    {
+      setPasswordAlert(false);
+    }else{
+      setPasswordAlert(true);
+    }
+    
+  }
+
+  const handleShowUserAlert = (set:number) => {
+    if(set == 0)
+    {
+      setUserAlert(false);
+    }else{
+      setUserAlert(true);
+    }
+    
+  }
+
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
         defaultValues: {
@@ -31,10 +66,16 @@ function FormLogin() {
       
       async function onSubmit(values: z.infer<typeof LoginSchema>) {
         const res = await login(values);
+        handleShowUserAlert(0);
+        handleShowPasswordAlert(0);
+        handleShowInfoAlert(0);
+
         if(res== 0){
-          alert("Usuario incorrecto")
+          handleShowUserAlert(1);
         } else if(res == 1){
-          alert("Contraseña incorrecta")
+          handleShowPasswordAlert(1);
+        } else if(res == 2){
+          handleShowInfoAlert(1);
         }
         console.log(values)
       }
@@ -47,7 +88,9 @@ function FormLogin() {
           name="user"
           render={({ field }) => (
             <FormItem>
-              <AlertPro variant={"destructive"} tittle={"Hola"} body={"Esto es el cuerpo"} duracion={2}/>
+              {showUserAlert && <AlertPro variant={"danger"} tittle={"El usuario no está registrado"} body={"Verifique su usuario e intente de nuevo"}/>}
+              {showPasswordAlert && <AlertPro variant={"danger"} tittle={"Contraseña incorrecta"} body={"Verifique su contraseña e intente de nuevo"}/>}
+              {showInfoAlert && <AlertPro variant={"info"} tittle={"Cuenta inactiva o suspendida"} body={"Contacte con un supervisor para más detalles"}/>}
               <FormLabel className="text-xl">Usuario</FormLabel>
               <FormControl>
                 <Input placeholder="Toque aquí para ingresar su usuario" {...field} className="border-gray-950 rounded-xl text-xl p-7"autoFocus/>
