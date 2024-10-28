@@ -2,7 +2,7 @@
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
 import { logout } from "@/actions";
 import { useState, useEffect } from "react";
-import logoutIcon from "@/public/assets/logout.svg";
+import { usePathname } from "next/navigation";
 
 import {
   Sidebar,
@@ -17,35 +17,71 @@ import {
 } from "@/components/ui/sidebar";
 
 // Menu items.
-const items = [
+const itemsAlmacen = [
   {
-    title: "Users",
+    title: "Dietas",
     url: "/users",
     icon: Home,
   },
   {
-    title: "Profile",
+    title: "Medicamento",
     url: "/users/profile",
     icon: Inbox,
   },
   {
-    title: "Admin",
+    title: "Ganado",
     url: "/users/admin",
     icon: Calendar,
   },
   {
-    title: "Search",
+    title: "Almacén",
     url: "#",
     icon: Search,
   },
   {
-    title: "Settings",
+    title: "Pedidos",
+    url: "#",
+    icon: Settings,
+  },
+  {
+    title: "Estadísticas",
     url: "#",
     icon: Settings,
   },
 ];
 
+const itemsAdmin = [
+  {
+    title: "Ganado",
+    url: "/users/admin/ganado",
+    icon: Home,
+  },
+  {
+    title: "Empleados",
+    url: "/users/admin/empleados",
+    icon: Inbox,
+  },
+  {
+    title: "Ventas",
+    url: "/users/admin/ventas",
+    icon: Calendar,
+  },
+  {
+    title: "Almacén",
+    url: "/users/admin/almacen",
+    icon: Search,
+  },
+  {
+    title: "Estadísticas",
+    url: "/users/admin/estadisticas",
+    icon: Settings,
+  },
+];
+
 export function AppSidebar() {
+
+  const pathname = usePathname();
+
   const [logoutaction, setLogout] = useState(false);
 
   const handleLogout = async () => {
@@ -54,22 +90,22 @@ export function AppSidebar() {
     setLogout(false);
   };
 
+  const itemsChoice = pathname.toString().substring(0,14) == "/users/almacen" ? itemsAlmacen : itemsAdmin;
+
   return (
     <Sidebar collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel >Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuButton asChild isActive>
-                <a href="#">Home</a>
-              </SidebarMenuButton>
-              {items.map((item) => (
+              
+              {itemsChoice.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
+                      <item.icon className={`${pathname == item.url ? 'stroke-acento' : ''}`}/>
+                      <span className={`${pathname == item.url ? 'text-acento' : ''}`} >{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

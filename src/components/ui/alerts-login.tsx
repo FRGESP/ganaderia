@@ -1,5 +1,5 @@
 "use client";
-import { Terminal, Timer } from "lucide-react"
+import { Info, Timer } from "lucide-react"
 import { useEffect,useState } from "react"
  
 import {
@@ -36,9 +36,9 @@ export function AlertPro({ variant, tittle, body, duration }: AlertProps) {
     <>
     {visible && (
         <Alert variant={variant}>
-      <Terminal className="h-4 w-4" />
-      <AlertTitle>{tittle}</AlertTitle>
-      <AlertDescription>
+      <Info className="h-6 w-6 stroke-white" />
+      <AlertTitle className="ml-3">{tittle}</AlertTitle>
+      <AlertDescription className="ml-3">
         {body}
       </AlertDescription>
     </Alert>

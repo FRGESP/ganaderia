@@ -18,7 +18,6 @@ export const getsession = async () => {
   if (!session.islogged) {
     session.islogged = defaultSession.islogged;
   }
-  console.log("S");
   return session;
 };
 export const login = async (credentials: Credentials) => {
@@ -47,13 +46,13 @@ export const roles = async () => {
   console.log(session.rol);
   switch (session.rol) {
     case 1:
-      redirect("/users/admin");
+      redirect("users/admin/ganado");
       break;
     case 2:
-      redirect("/users/almacen");
+      redirect("users/almacen");
       break;
     case 3:
-      redirect("/users/ventas");
+      redirect("users/ventas");
       break;
     default:
       console.log("No se encontro el rol");
@@ -65,3 +64,19 @@ export const logout = async () => {
   session.destroy();
   redirect("/");
 };
+
+export const islogged = async () => {
+  const session = await getsession();
+
+  if(!session.islogged){
+    redirect("/");
+  }
+}
+
+export const checkRole = async (rol:number) => {
+  const session = await getsession();
+
+  if(session.rol != rol) {
+    redirect('/');
+  }
+}

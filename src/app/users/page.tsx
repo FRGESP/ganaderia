@@ -1,8 +1,10 @@
-
-function UsersPage() {
+import React from 'react'
+import { checkRole } from '@/actions'
+async function UsersPage() {
+    await checkRole(0);
   return (
     <div>
-      Esta es la página de usuarios
+      Pagina de usuarios
     </div>
   )
 }
