@@ -4,7 +4,6 @@ import { sessionOptions, SessionData, defaultSession } from "@/lib";
 import { getIronSession } from "iron-session";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { LoginSchema } from "@/lib/zod";
 
 import axios from "axios";
 
@@ -61,4 +60,8 @@ export const roles = async () => {
       redirect("/");
   }
 };
-export const logout = () => {};
+export const logout = async () => {
+  const session = await getsession();
+  session.destroy();
+  redirect("/");
+};
