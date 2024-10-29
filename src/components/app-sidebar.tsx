@@ -14,39 +14,47 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarFooter,
+  SidebarHeader
 } from "@/components/ui/sidebar";
 
 // Menu items.
 const itemsAlmacen = [
   {
     title: "Dietas",
-    url: "/users",
-    icon: Home,
+    url: "/users/almacen/dietas",
+    icon: "/assets/Almacen/Maiz.png",
+    iconBold: "/assets/Almacen/MaizVerde.png",
   },
   {
     title: "Medicamento",
-    url: "/users/profile",
-    icon: Inbox,
+    url: "/users/almacen/medicamento",
+    icon: "/assets/Almacen/Medicamentos.png",
+    iconBold: "/assets/Almacen/MedicamentosVerde.png",
   },
   {
     title: "Ganado",
-    url: "/users/admin",
-    icon: Calendar,
+    url: "/users/almacen/ganado",
+    icon: "/assets/Admin/Ganado.png",
+    iconBold: "/assets/Admin/GanadoVerde.png",
   },
   {
     title: "Almacén",
-    url: "#",
-    icon: Search,
+    url: "/users/almacen/almacenpage",
+    icon: "/assets/Almacen/Almacen.png",
+    iconBold: "/assets/Almacen/AlmacenVerde.png",
+
   },
   {
     title: "Pedidos",
-    url: "#",
-    icon: Settings,
+    url: "/users/almacen/pedidos",
+    icon: "/assets/Almacen/Pedidos.png",
+    iconBold: "/assets/Almacen/PedidosVerde.png",
   },
   {
     title: "Estadísticas",
-    url: "#",
-    icon: Settings,
+    url: "/users/almacen/estadisticas",
+    icon: "/assets/Almacen/Estadisticas.png",
+    iconBold: "/assets/Almacen/EstadisticasVerde.png",
   },
 ];
 
@@ -54,27 +62,32 @@ const itemsAdmin = [
   {
     title: "Ganado",
     url: "/users/admin/ganado",
-    icon: Home,
+    icon: "/assets/Admin/Ganado.png",
+    iconBold: "/assets/Admin/GanadoVerde.png",
   },
   {
     title: "Empleados",
     url: "/users/admin/empleados",
-    icon: Inbox,
+    icon: "/assets/Admin/Empleados.png",
+    iconBold: "/assets/Admin/EmpleadosVerde.png",
   },
   {
     title: "Ventas",
     url: "/users/admin/ventas",
-    icon: Calendar,
+    icon: "/assets/Admin/Ventas.png",
+    iconBold: "/assets/Admin/VentasVerde.png",
   },
   {
     title: "Almacén",
     url: "/users/admin/almacen",
-    icon: Search,
+    icon: "/assets/Almacen/Almacen.png",
+    iconBold: "/assets/Almacen/AlmacenVerde.png",
   },
   {
     title: "Estadísticas",
     url: "/users/admin/estadisticas",
-    icon: Settings,
+    icon: "/assets/Almacen/Estadisticas.png",
+    iconBold: "/assets/Almacen/EstadisticasVerde.png",
   },
 ];
 
@@ -90,22 +103,31 @@ export function AppSidebar() {
     setLogout(false);
   };
 
-  const itemsChoice = pathname.toString().substring(0,14) == "/users/almacen" ? itemsAlmacen : itemsAdmin;
+  const isadmin = pathname.toString().substring(0,12) == "/users/admin";
+  const itemsChoice = isadmin ? itemsAdmin : itemsAlmacen;
 
   return (
     <Sidebar collapsible="icon">
+      <SidebarHeader>
+        <div className="flex flex-col justify-center items-center overflow-hidden">
+          <img src="/assets/Login/Logo.png" alt="" className="items-center w-20"/>
+        </div>
+        {/* <div className="flex items-center space-x-2 group-data-[collapsible=icon]:overflow-x-hidden">
+          <img src="/assets/Login/Logo.png" alt="" width={40}/>
+          <span className="text-2xl font-bold">Almacégf fdbdbd dfbdb</span>
+        </div> */}
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel >Application</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-lg">{isadmin ? "Administrador" : "Almacen"}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              
               {itemsChoice.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild className="my-2">
                     <a href={item.url}>
-                      <item.icon className={`${pathname == item.url ? 'stroke-acento' : ''}`}/>
-                      <span className={`${pathname == item.url ? 'text-acento' : ''}`} >{item.title}</span>
+                      <img src={`${pathname == item.url ? item.iconBold : item.icon}`} alt="" className="w-8 h-auto" />
+                      <span className={`${pathname == item.url ? 'text-acento font-bold' : ''} text-lg`} >{item.title}</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -118,8 +140,8 @@ export function AppSidebar() {
       <SidebarFooter className="group-data-[collapsible=icon]:overflow-x-hidden">
         <SidebarMenuItem key={"logout"}>
           <SidebarMenuButton onClick={handleLogout} disabled={logoutaction}>
-          <img src="/assets/almacen/logout.svg" alt="" width={20}/>
-            <span>{"Salir"}</span>
+            <img src="/assets/almacen/logout.svg" alt="" className="w-8 h-auto"/>
+            <span className="overflow-hidden">{"Salir"}</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarFooter>

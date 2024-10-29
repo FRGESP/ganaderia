@@ -49,7 +49,7 @@ export const roles = async () => {
       redirect("users/admin/ganado");
       break;
     case 2:
-      redirect("users/almacen");
+      redirect("users/almacen/almacenpage");
       break;
     case 3:
       redirect("users/ventas");
