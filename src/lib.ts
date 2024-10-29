@@ -3,6 +3,8 @@ import { SessionOptions } from "iron-session";
 export interface SessionData {
     userId?: number;
     rol?: number;
+    name?: string;
+    lastname?: string;
     islogged: boolean;
 }
 

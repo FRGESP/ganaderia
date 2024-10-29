@@ -1,5 +1,7 @@
+import { checkRole } from "@/actions";
 
-function AlmacenPage() {
+async function AlmacenPage() {
+  await checkRole(0);
   return (
     <div>
       Esta es la pagina del almacen

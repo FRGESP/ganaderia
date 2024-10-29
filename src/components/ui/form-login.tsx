@@ -77,7 +77,6 @@ function FormLogin() {
         } else if(res == 2){
           handleShowInfoAlert(1);
         }
-        console.log(values)
       }
 
       return <div >

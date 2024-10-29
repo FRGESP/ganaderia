@@ -1,9 +1,8 @@
-import React from 'react'
 
 function almacenAdminPage() {
   return (
     <div>
-      Esta es la pagina del almacen para el admin
+      <h1>Almacen</h1>
     </div>
   )
 }

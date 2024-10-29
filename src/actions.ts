@@ -35,6 +35,8 @@ export const login = async (credentials: Credentials) => {
     session.userId = datos.IdUsuario;
     session.rol = datos.Rol;
     session.islogged = true;
+    session.name = datos.Nombre;
+    session.lastname = datos.Apellido;
 
     await session.save();
     await roles();
