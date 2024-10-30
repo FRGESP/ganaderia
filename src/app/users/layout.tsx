@@ -2,6 +2,7 @@ import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { islogged } from "@/actions"
 import AppNavbar from "@/components/ui/appNavbar"
+import { Toaster } from "@/components/ui/toaster"
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
     await islogged()
@@ -12,6 +13,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
         <AppNavbar />
         <main className="">
           {children}
+          <Toaster />
         </main>
       </div>
     </SidebarProvider>

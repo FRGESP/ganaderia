@@ -31,7 +31,6 @@ export async function GET(request, {params}) {
 export async function DELETE(req,{params}) {
     try{
         const [result] = await conn.query(`CALL ${SPDELETE}(?)`, [params.id])
-        console.log(result[0][0].res);
 
         if(result[0][0].res == 0){
             return NextResponse.json({
@@ -60,7 +59,6 @@ export async function PUT(req,{params}) {
         const data = await req.json();
         data.IDINT = params.id;
         const values = Object.values(data);
-        console.log(values);
         const result = await conn.query(`CALL ${SPPUT}(?)`,[values]);
 
         if(result.affectedRows === 0) {
