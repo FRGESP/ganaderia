@@ -10,7 +10,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
       <AppSidebar />
       <div className="flex-1">
         <AppNavbar />
-        <main className="mt-10">
+        <main className="">
           {children}
         </main>
       </div>

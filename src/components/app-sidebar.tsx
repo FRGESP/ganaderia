@@ -124,7 +124,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {itemsChoice.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild className="my-2">
+                  <SidebarMenuButton asChild className="my-2 hover:bg-[#ececec] mb-4 py-3">
                     <a href={item.url}>
                       <img src={`${pathname == item.url ? item.iconBold : item.icon}`} alt="" className="w-8 h-auto" />
                       <span className={`${pathname == item.url ? 'text-acento font-bold' : ''} text-lg`} >{item.title}</span>
@@ -139,7 +139,7 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter className="group-data-[collapsible=icon]:overflow-x-hidden">
         <SidebarMenuItem key={"logout"}>
-          <SidebarMenuButton onClick={handleLogout} disabled={logoutaction}>
+          <SidebarMenuButton onClick={handleLogout} disabled={logoutaction} className="hover:bg-[#eeeeee] mb-4">
             <img src="/assets/almacen/logout.svg" alt="" className="w-8 h-auto"/>
             <span className="overflow-hidden text-lg">{"Salir"}</span>
           </SidebarMenuButton>

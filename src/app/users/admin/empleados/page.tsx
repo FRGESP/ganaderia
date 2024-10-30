@@ -1,11 +1,19 @@
-import React from 'react'
-
-function empleadosPage() {
+import axios from "axios"
+import { Empleados, columns } from "./columns"
+import { DataTable } from "@/components/ui/data-table"
+ 
+async function getData(): Promise<Empleados[]> {
+  const data = await axios.get(`${process.env.URL}/api/users/admin/empleados`)
+  console.log(data.data)
+  return data.data
+}
+ 
+export default async function DemoPage() {
+  const data = await getData();
+ 
   return (
-    <div>
-      Esta es la página de empleados
+    <div className="container mx-auto py-10">
+      <DataTable columns={columns} data={data} />
     </div>
   )
 }
-
-export default empleadosPage
