@@ -141,7 +141,7 @@ export function AppSidebar() {
         <SidebarMenuItem key={"logout"}>
           <SidebarMenuButton onClick={handleLogout} disabled={logoutaction}>
             <img src="/assets/almacen/logout.svg" alt="" className="w-8 h-auto"/>
-            <span className="overflow-hidden">{"Salir"}</span>
+            <span className="overflow-hidden text-lg">{"Salir"}</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarFooter>

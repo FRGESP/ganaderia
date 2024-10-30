@@ -45,7 +45,6 @@ export const login = async (credentials: Credentials) => {
 
 export const roles = async () => {
   const session = await getsession();
-  console.log(session.rol);
   switch (session.rol) {
     case 1:
       redirect("users/admin/ganado");
