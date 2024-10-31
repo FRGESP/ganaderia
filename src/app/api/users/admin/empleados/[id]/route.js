@@ -17,7 +17,7 @@ export async function GET(request, {params}) {
                 status:404
             })
         }
-        return NextResponse.json(result[0])
+        return NextResponse.json(result[0][0])
     }catch(error){
         return NextResponse.json({
             message:error
@@ -56,12 +56,11 @@ export async function DELETE(req,{params}) {
 
 export async function PUT(req,{params}) {
     try{
-        const data = await req.json();
-        data.IDINT = params.id;
-        const values = Object.values(data);
-        const result = await conn.query(`CALL ${SPPUT}(?)`,[values]);
-
-        if(result.affectedRows === 0) {
+        const resquest = await req.json();
+        console.log(resquest)
+        const [res] = await conn.query('CALL SP_UPDATEEMPLEADO(?,?,?,?,?,?,?,?,?)', [resquest.Nombre, resquest.ApellidoPaterno, resquest.ApellidoMaterno,resquest.Edad,resquest.Telefono,  resquest.Rol, resquest.Sueldo, resquest.Estatus, params.id]);
+        
+        if(res[0][0].res == 0) {
             return NextResponse.json({
                 message: `No se encontró al ${sujeto}`
             },
@@ -70,16 +69,16 @@ export async function PUT(req,{params}) {
             }
         )
         }
-        const [updatedEmpleado] = await conn.query(`CALL ${SPGET}(?)`, [params.id])
 
-        return NextResponse.json(updatedEmpleado[0]);
+        return NextResponse.json(res[0][0].res);
     }catch(error)
     {
+        console.log(error);
         return NextResponse.json({
             message: error
         },
         {
-            status:500
+            status:501
         })
     }
 }

@@ -20,14 +20,17 @@ import { Label } from "@/components/ui/label"
 interface butonActionProps {
     action: "edit" | "delete";
     id: string;
-    labelsRoute?: string;
+    labelsRoute: string;
     dataRoute?: string;
 }
 
-
-
+async function getLabels(route: string) {
+    const res = await axios.get(`api/columns/${route}`);
+    return res.data;
+}
 
 function ButtonAction({action,id, labelsRoute, dataRoute}: butonActionProps) {
+    const labels = getLabels(labelsRoute);
     const {toast} = useToast();
     const isedit = action === "edit" ? true : false;  
     const router = useRouter();

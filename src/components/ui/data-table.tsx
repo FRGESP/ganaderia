@@ -1,6 +1,7 @@
 "use client"
 import * as React from "react"
 import { ListFilter, Plus } from 'lucide-react';
+import AddEmpleadosButton from "./addEmpleadosButton";
 
 import {
   ColumnDef,
@@ -65,9 +66,7 @@ export function DataTable<TData, TValue>({
           className="border border-black rounded-full mx-5 py-6"
         />
         <div className="grid grid-cols-2 gap-3">
-          <button>
-            <Plus className="w-16 h-16 text-acento" strokeWidth={3}/>
-          </button>
+          <AddEmpleadosButton />
           <button>
             <ListFilter className="w-16 h-16" strokeWidth={3}/>
           </button>

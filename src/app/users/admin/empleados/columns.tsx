@@ -25,6 +25,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ButtonIcon } from "@/components/ui/buttonIcon"
 import ButtonAction from "@/components/ui/buttotAction"
+import ButtonDelete from "@/components/ui/buttonDelete"
+import ButtonEditEmpleados from "@/components/ui/buttonEdit"
+
+const columnas = ["Id", "Nombre", "Apellido Paterno", "Apellido Materno", "Edad", "Telefono", "Rol", "Sueldo", "Estatus"]
+
 export const columns: ColumnDef<Empleados>[] = [
   {
     accessorKey: "Id",
@@ -101,8 +106,10 @@ export const columns: ColumnDef<Empleados>[] = [
             //   </DropdownMenuContent>
             // </DropdownMenu>
             <div className="grid gap-1 grid-cols-2 text-black">
-              <ButtonAction action="edit" id={fila.Id}/>
-              <ButtonAction action="delete" id={fila.Id}/>
+              {/* <ButtonAction action="edit" id={fila.Id}/>
+              <ButtonAction action="delete" id={fila.Id}/> */}
+              <ButtonEditEmpleados id={fila.Id}/>
+              <ButtonDelete id={fila.Id}/>
             </div>
           )
         },
