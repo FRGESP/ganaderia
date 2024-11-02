@@ -61,12 +61,10 @@ function AddEmpleadosButton() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof EmpleadosEditSchema>) {
-
-
     const response = await axios.post(`/api/users/admin/empleados/add`, values);
     if (response.data.RES !== 1) {
       toast({
-        title: "Empelado agregado con éxito",
+        title: "Empleado agregado con éxito",
         description: "El empleado se ha agregado correctamente",
         variant: "success",
       });
@@ -80,7 +78,6 @@ function AddEmpleadosButton() {
         variant: "destructive",
       });
     }
-    console.log(values);
   }
 
   return (
@@ -95,7 +92,7 @@ function AddEmpleadosButton() {
           <DialogTitle>Agregar Empleado</DialogTitle>
         </DialogHeader>
         <div className="overflow-y-scroll h-[500px] w-[450px] rounded-md border shadow-lg p-5 m-1 bg-white scroll-smooth scroll-dialog">
-        <div className="m-2">
+          <div className="m-2">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -202,7 +199,9 @@ function AddEmpleadosButton() {
                           placeholder=""
                           {...field}
                           className="border border-[#555555]"
-                          onChange={(e) => field.onChange(Number(e.target.value))} // Convierte el valor a número
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          } // Convierte el valor a número
                         />
                       </FormControl>
                       <FormMessage />
@@ -267,11 +266,10 @@ function AddEmpleadosButton() {
                           defaultValue={field.value}
                         >
                           <SelectTrigger className=" border-[#555555] text-black w-full">
-                            <SelectValue placeholder="Rol" />
+                            <SelectValue placeholder="<Estatus>" />
                           </SelectTrigger>
                           <SelectContent className="border border-[#555555]">
                             <SelectItem value="1">Activo</SelectItem>
-                            <SelectItem value="2">Despedido</SelectItem>
                             <SelectItem value="3">Suspendido</SelectItem>
                           </SelectContent>
                         </Select>

@@ -76,7 +76,6 @@ export const islogged = async () => {
 
 export const checkRole = async (rol:number) => {
   const session = await getsession();
-  console.log(session.rol);
   if(session.rol != rol) {
     redirect('/');
   }
@@ -85,13 +84,11 @@ export const checkRole = async (rol:number) => {
 export const getId = async () => {
   const session = await getsession();
   const id = session.userId;
-  console.log("SIIUU"+id);
   return id?.toString()
   
 }
 
 export const getIds = async () => {
   const session = await getsession();
-  console.log(session);
   return session.rol;
 }

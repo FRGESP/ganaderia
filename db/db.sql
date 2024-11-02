@@ -46,14 +46,14 @@ CREATE TABLE USUARIO(
     CONSTRAINT FK_USUARIOTOEMPLEADO FOREIGN KEY(IdEmpleado) REFERENCES EMPLEADO(IdEmpleado) ON DELETE CASCADE
 );
 
-ALTER TABLE USUARIO AUTO_INCREMENT = 1000;
+ALTER TABLE USUARIO AUTO_INCREMENT = 1001;
 
 
 -- VISTAS
 
 DROP VIEW IF EXISTS EMPLEADOSPAGE;
 CREATE VIEW EMPLEADOSPAGE AS
-    SELECT u.IdUsuario, E.IdEmpleado AS Id, CONCAT(P.Nombre, ' ', P.ApellidoPaterno, ' ', P.ApellidoMaterno) AS Nombre, P.Edad, P.Telefono, R.Rol, E.Sueldo, ES.Estatus FROM EMPLEADO AS E INNER JOIN PERSONA AS P ON E.IdPersona = P.IdPersona INNER JOIN ESTATUS AS ES ON E.Estatus = ES.IdEstatus INNER JOIN ROL AS R ON E.Rol = R.IdRol INNER JOIN USUARIO U on E.IdEmpleado = U.IdEmpleado ORDER BY E.Fecha ASC;
+    SELECT U.IdUsuario, E.IdEmpleado AS Id, CONCAT(P.Nombre, ' ', P.ApellidoPaterno, ' ', P.ApellidoMaterno) AS Nombre, P.Edad, P.Telefono, R.Rol, E.Sueldo, ES.Estatus FROM EMPLEADO AS E INNER JOIN PERSONA AS P ON E.IdPersona = P.IdPersona INNER JOIN ESTATUS AS ES ON E.Estatus = ES.IdEstatus INNER JOIN ROL AS R ON E.Rol = R.IdRol INNER JOIN USUARIO U on E.IdEmpleado = U.IdEmpleado ORDER BY E.Fecha ASC;
 
 -- STOCK PROCEDURE
 

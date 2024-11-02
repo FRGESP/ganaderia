@@ -57,7 +57,6 @@ export async function DELETE(req,{params}) {
 export async function PUT(req,{params}) {
     try{
         const resquest = await req.json();
-        console.log(resquest)
         const [res] = await conn.query('CALL SP_UPDATEEMPLEADO(?,?,?,?,?,?,?,?,?)', [resquest.Nombre, resquest.ApellidoPaterno, resquest.ApellidoMaterno,resquest.Edad,resquest.Telefono,  resquest.Rol, resquest.Sueldo, resquest.Estatus, params.id]);
         
         if(res[0][0].res == 0) {
