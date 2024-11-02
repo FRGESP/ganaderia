@@ -3,6 +3,7 @@ import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
 import { logout } from "@/actions";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 import {
   Sidebar,
@@ -125,10 +126,10 @@ export function AppSidebar() {
               {itemsChoice.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild className="my-2 hover:bg-[#ececec] mb-4 py-3">
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <img src={`${pathname == item.url ? item.iconBold : item.icon}`} alt="" className="w-8 h-auto" />
                       <span className={`${pathname == item.url ? 'text-acento font-bold' : ''} text-lg`} >{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

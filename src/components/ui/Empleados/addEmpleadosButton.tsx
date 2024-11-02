@@ -3,15 +3,11 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Plus } from "lucide-react";
-import { EmpleadosAddForm } from "./empleadosAddForm";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -65,12 +61,7 @@ function AddEmpleadosButton() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof EmpleadosEditSchema>) {
-    const numericValues = {
-        ...values,
-        Sueldo: Number(values.Sueldo),
-    }
 
-    console.log(numericValues);
 
     const response = await axios.post(`/api/users/admin/empleados/add`, values);
     if (response.data.RES !== 1) {
@@ -103,8 +94,8 @@ function AddEmpleadosButton() {
         <DialogHeader>
           <DialogTitle>Agregar Empleado</DialogTitle>
         </DialogHeader>
-        <ScrollArea className="h-[500px] w-[450px] rounded-md border p-5 m-1">
-          <div className="m-2">
+        <div className="overflow-y-scroll h-[500px] w-[450px] rounded-md border shadow-lg p-5 m-1 bg-white scroll-smooth scroll-dialog">
+        <div className="m-2">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -280,8 +271,8 @@ function AddEmpleadosButton() {
                           </SelectTrigger>
                           <SelectContent className="border border-[#555555]">
                             <SelectItem value="1">Activo</SelectItem>
-                            <SelectItem value="2">Suspendido</SelectItem>
-                            <SelectItem value="3">Despedido</SelectItem>
+                            <SelectItem value="2">Despedido</SelectItem>
+                            <SelectItem value="3">Suspendido</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -290,13 +281,13 @@ function AddEmpleadosButton() {
                   )}
                 />
 
-                <Button className="bg-acento hover:bg-acentohover w-full p-4 text-md rounded-full py-6">
+                <Button className="bg-acento hover:bg-acentohover w-full p-4 text-md rounded-full py-6 ">
                   Agregar
                 </Button>
               </form>
             </Form>
           </div>
-        </ScrollArea>
+        </div>
       </DialogContent>
     </Dialog>
   );

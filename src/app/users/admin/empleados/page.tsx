@@ -1,7 +1,10 @@
 import axios from "axios"
 import { Empleados, columns } from "./columns"
-import { DataTable } from "@/components/ui/data-table"
+import { DataTable } from "@/components/ui/Empleados/data-table"
 import { getId } from "@/actions"
+import { Suspense } from "react"
+import Loading from "@/app/users/admin/empleados/loading"
+import { Skeleton } from "@/components/ui/skeleton"
  
 async function getData(): Promise<Empleados[]> {
   const id = await getId()
@@ -14,7 +17,9 @@ export default async function DemoPage() {
   const data = await getData();
   return (
     <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
+
+        <DataTable columns={columns} data={data} />
+
     </div>
   )
 }

@@ -5,7 +5,7 @@ import { LoginSchema } from '@/lib/zod';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { login } from "@/actions"
-import { AlertPro } from "./alerts-login";
+import { AlertPro } from "@/components/ui/Login/alerts-login";
 import { useState, useEffect } from "react";
 
 import { Button } from "@/components/ui/button"

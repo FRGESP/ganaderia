@@ -1,7 +1,7 @@
 "use client"
 import * as React from "react"
-import { ListFilter, Plus } from 'lucide-react';
-import AddEmpleadosButton from "./addEmpleadosButton";
+import { ListFilter } from 'lucide-react';
+import AddEmpleadosButton from "@/components/ui/Empleados/addEmpleadosButton";
 
 import {
   ColumnDef,
@@ -24,7 +24,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { ButtonIcon } from "./buttonIcon"
  
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

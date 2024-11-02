@@ -10,7 +10,9 @@ export default async function Layout({ children }: { children: React.ReactNode }
     <SidebarProvider defaultOpen={false} className="relative flex">
       <AppSidebar />
       <div className="flex-1">
-        <AppNavbar />
+        <div className="sticky top-0 shadow-md z-50">
+          <AppNavbar />
+        </div>
         <main className="">
           {children}
           <Toaster />
