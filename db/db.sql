@@ -156,7 +156,6 @@ BEGIN
         SELECT E.IdEmpleado AS Id, P.Nombre, P.ApellidoPaterno, P.ApellidoMaterno , P.Edad, P.Telefono, R.Rol, E.Sueldo, ES.Estatus FROM EMPLEADO AS E INNER JOIN PERSONA AS P ON E.IdPersona = P.IdPersona INNER JOIN ESTATUS AS ES ON E.Estatus = ES.IdEstatus INNER JOIN ROL AS R ON E.Rol = R.IdRol INNER JOIN USUARIO U on E.IdEmpleado = U.IdEmpleado WHERE E.IdEmpleado = IDEMP ORDER BY E.Fecha ASC;
 END;
 
-CALL SP_GETEMPLEADOFORMAT(1)
 
 
 -- AGREGANDO DATOS INICIALES

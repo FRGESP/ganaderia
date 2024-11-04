@@ -160,6 +160,7 @@ function AddEmpleadosButton() {
                       <FormLabel>Edad</FormLabel>
                       <FormControl>
                         <Input
+                        type="number"
                           placeholder=""
                           {...field}
                           className="border border-[#555555]"
@@ -178,6 +179,7 @@ function AddEmpleadosButton() {
                       <FormLabel>Teléfono</FormLabel>
                       <FormControl>
                         <Input
+                        type="number"
                           placeholder=""
                           {...field}
                           className="border border-[#555555]"
@@ -196,12 +198,13 @@ function AddEmpleadosButton() {
                       <FormLabel>Sueldo</FormLabel>
                       <FormControl>
                         <Input
+                        type="number"
                           placeholder=""
                           {...field}
                           className="border border-[#555555]"
                           onChange={(e) =>
                             field.onChange(Number(e.target.value))
-                          } // Convierte el valor a número
+                          } 
                         />
                       </FormControl>
                       <FormMessage />
