@@ -15,7 +15,7 @@ function Numpad({ inputValue, onchange }: NumpadProps) {
   };
 
   return (
-    <div className="px-10 pt-10">
+    <div className="px-10 pt-14">
         <div className="grid grid-cols-3 gap-0 ">
           {[7, 8, 9].map((num) => (
             <button
