@@ -92,3 +92,21 @@ export const getIds = async () => {
   const session = await getsession();
   return session.rol;
 }
+
+export const setReemoAction = async (reemo:string) => {
+  const session = await getsession();
+  session.reemo = reemo;
+  await session.save();
+  const response = await axios.post(`${process.env.URL}/api/entradas/${session.userId}`, reemo);
+}
+
+export const isReemoInSession = async () => {
+  const session = await getsession();
+
+  if(!session.reemo){
+    return false
+  } else {
+    return true
+  }
+}
+

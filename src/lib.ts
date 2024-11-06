@@ -6,6 +6,7 @@ export interface SessionData {
     name?: string;
     lastname?: string;
     islogged: boolean;
+    reemo?: string;
 }
 
 export const sessionOptions: SessionOptions = {
