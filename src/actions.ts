@@ -93,11 +93,14 @@ export const getIds = async () => {
   return session.rol;
 }
 
-export const setReemoAction = async (reemo:string) => {
+export const setReemoAction = async (reemo:string, motivo:string, corral:string, sexo:string) => {
   const session = await getsession();
   session.reemo = reemo;
+  session.motivo = motivo;
+  session.corral = corral;
+  session.sexoAnimal = sexo;
   await session.save();
-  const response = await axios.post(`${process.env.URL}/api/entradas/${session.userId}`, reemo);
+ // const response = await axios.post(`${process.env.URL}/api/entradas/${session.userId}`, reemo);
 }
 
 export const isReemoInSession = async () => {
@@ -108,5 +111,11 @@ export const isReemoInSession = async () => {
   } else {
     return true
   }
+}
+
+export const getReemo = async () => {
+  const session = await getsession();
+  const response = await axios.post(`${process.env.URL}/api/entradas/corrales`,{Motivo: session.motivo, Corral: session.corral});
+  return {reemo: session.reemo, motivo: session.motivo, corral: session.corral, sexo: session.sexoAnimal, corralChar: response.data.CorralChar, motivoChar: response.data.MotivoChar};
 }
 
