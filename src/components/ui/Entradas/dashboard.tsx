@@ -228,29 +228,37 @@ function Dashboard() {
                   </label>
                 </div>
               </div>
-              <div className="mt-10 border border-black ">
-                <h2 className="text-xl font-bold text-black flex justify-center">
+              <div className="mt-10 border-black mx-20 p-4 border-2">
+                <h2 className="text-xl font-bold text-black flex justify-center mb-5">
                   Datos del Animal
                 </h2>
-                <input
-                  type="text"
-                  value={inputValues.input1}
-                  id="input1"
-                  name="input1"
-                  readOnly
-                  className="border border-black focus:bg-acento"
-                  onFocus={() => handleInputFocus("input1")}
-                />
-                <input
-                  type="text"
-                  value={inputValues.input2}
-                  id="input2"
-                  name="input2"
-                  readOnly
-                  className="border border-black focus:bg-acento"
-                  onFocus={() => handleInputFocus("input2")}
-                />
-                <button className="border border-black p-5">Enviar</button>
+                <div className="flex flex-col gap-y-2 items-center">
+                  <label className=" font-bold text-center">
+                      Arete:
+                    </label>
+                  <input
+                    type="text"
+                    value={inputValues.input1}
+                    id="input1"
+                    name="input1"
+                    readOnly
+                    className="border border-black focus:bg-acento p-4 w-[70%] rounded-md flex text-lg"
+                    onFocus={() => handleInputFocus("input1")}
+                  />
+                 <label className=" font-bold text-center">
+                      Meses:
+                    </label>
+                  <input
+                    type="text"
+                    value={inputValues.input1}
+                    id="input1"
+                    name="input1"
+                    readOnly
+                    className="border border-black focus:bg-acento p-4 w-[70%] rounded-md flex text-lg"
+                    onFocus={() => handleInputFocus("input1")}
+                  />
+                  <button className="border border-black p-5">Enviar</button>
+                </div>
               </div>
             </form>
           )}
