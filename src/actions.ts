@@ -94,18 +94,23 @@ export const getIds = async () => {
 }
 
 export const setReemoAction = async (reemo:string, motivo:string, corral:string, sexo:string) => {
+  const response = await axios.post(`${process.env.URL}/api/entradas`, {ReemoIn: reemo});
   const session = await getsession();
-  session.reemo = reemo;
+  if(response.data.RES == 1){
+    session.reemo = reemo;
   session.motivo = motivo;
   session.corral = corral;
   session.sexoAnimal = sexo;
   await session.save();
- // const response = await axios.post(`${process.env.URL}/api/entradas/${session.userId}`, reemo);
+  return true
+  } else {
+    return false
+  }
+  
 }
 
 export const isReemoInSession = async () => {
   const session = await getsession();
-
   if(!session.reemo){
     return false
   } else {
@@ -119,3 +124,30 @@ export const getReemo = async () => {
   return {reemo: session.reemo, motivo: session.motivo, corral: session.corral, sexo: session.sexoAnimal, corralChar: response.data.CorralChar, motivoChar: response.data.MotivoChar};
 }
 
+//Agregar animales
+export const addAnimal = async (animal:any) => {
+  const session = await getsession();
+  animal.MotivoSession = session.motivo;
+  animal.CorralSession = session.corral;
+  animal.SexoSession = session.sexoAnimal;
+  animal.ReemoSession = session.reemo;
+  const response = await axios.post(`${process.env.URL}/api/entradas/${session.userId}`, animal);
+  return response.data;
+};
+
+//Obtener lista de animales
+export const getAnimalsList = async () => {
+  const session = await getsession();
+  const response = await axios.get(`${process.env.URL}/api/entradas/${session.reemo}`);
+  return response.data;
+}
+
+//Elimina el Reemo de la session
+export const deleteReemo = async () => {
+  const session = await getsession();
+  session.reemo = "";
+  session.motivo = "";
+  session.corral = "";
+  session.sexoAnimal = "";
+  await session.save();
+}

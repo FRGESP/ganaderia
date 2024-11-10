@@ -82,9 +82,7 @@ function ButtonAction({action,id, labelsRoute, dataRoute}: butonActionProps) {
             <button className=" border border-[#ececec] h-10 w-10 flex items-center justify-center rounded-md hover:bg-[#ececec]"
             onClick={async () =>{
                 if(isedit) {
-                    console.log('Edit pa')
-                    console.log(id);
-                    
+                
                 } else {
                     if(confirm("¿Está seguro de eliminar este registro?")){
                         const res = await axios.delete(`/api/users/admin/empleados/${id}`);

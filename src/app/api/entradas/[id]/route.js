@@ -1,31 +1,35 @@
 import { NextResponse } from "next/server";
 import {conn} from '@/lib/mysql'
 
-export async function POST(req, {params}) {
+export async function POST(req,{params}) {
     try{
         const resquest = await req.json();
-        console.log("Esta es"+resquest);
-        const [result] = await conn.query(`CALL ADDGUIAENTRADA(?, ?)`, [resquest ,params.id])
 
-        // if(result[0][0].res == 0){
-        //     return NextResponse.json({
-        //         message:`No se encontró al ${sujeto}`
-        //     },
-        //     {
-        //         status:404
-        //     }
-        // )
-        // }
-        return new Response(null, {status:204})
-    }catch(error)
-    {
-        console.log(error);
+        console.log(resquest)
+        const [res] = await conn.query('CALL ENTRADAANIMAL(?,?,?,?,?,?,?,?,?)', [params.id, resquest.ReemoSession, resquest.MotivoSession,resquest.CorralSession, resquest.SexoSession, resquest.areteInput, resquest.mesesInput, resquest.pesoInput, resquest.selectEstado]);
+        return NextResponse.json(res[0][0])
+    }catch(error){
+        console.log(error)
         return NextResponse.json({
             message:error
         },
         {
-            status: 400
-        }
-    )
+            status:500
+        })
+    }
+}
+
+export async function GET(request, {params}) {
+    try{
+        const [result] = await conn.query(`CALL LISTGANADO(?)`, [params.id]);
+        return NextResponse.json(result[0])
+    }catch(error){
+        console.log(error)
+        return NextResponse.json({
+            message:error
+        },
+        {
+            status:500
+        })
     }
 }

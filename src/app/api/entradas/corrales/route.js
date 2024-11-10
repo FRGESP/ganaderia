@@ -7,6 +7,7 @@ export async function GET() {
         console.log(result[0][0])
     return NextResponse.json(result[0][0])
     }catch(error){
+        console.log(error)
         return NextResponse.json({ message: 'Error' }, { status: 500 })
     }
     
@@ -18,6 +19,7 @@ export async function POST(req) {
         const [result] = await conn.query('CALL OBTENERINFOSESSIONENTRADAS(?,?)', [data.Motivo, data.Corral]);
     return NextResponse.json(result[0][0])
     } catch(error){
+        console.log(error)
         return NextResponse.json({
             message:error
         },
