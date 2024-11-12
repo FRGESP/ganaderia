@@ -17,6 +17,7 @@ import {
   SidebarFooter,
   SidebarHeader
 } from "@/components/ui/sidebar";
+import { url } from "inspector";
 
 // Menu items.
 const itemsAlmacen = [
@@ -92,6 +93,21 @@ const itemsAdmin = [
   },
 ];
 
+const itemsEntradas = [
+  {
+    title: "Guias",
+    url: "/users/entradas/guias",
+    icon: "/assets/Entradas/Guias.png",
+    iconBold: "/assets/Entradas/GuiasVerde.png",
+  },
+  {
+    title: "Corrales",
+    url: "/users/entradas/corrales",
+    icon: "/assets/Entradas/Corrales.png",
+    iconBold: "/assets/Entradas/CorralesVerde.png",
+  }
+];
+
 export function AppSidebar() {
 
   const pathname = usePathname();
@@ -104,8 +120,9 @@ export function AppSidebar() {
     setLogout(false);
   };
 
+  const isEntradas = pathname.toString().substring(0,15) == "/users/entradas";
   const isadmin = pathname.toString().substring(0,12) == "/users/admin";
-  const itemsChoice = isadmin ? itemsAdmin : itemsAlmacen;
+  const itemsChoice = isadmin ? itemsAdmin : isEntradas ? itemsEntradas : itemsAlmacen;
 
   return (
     <Sidebar collapsible="icon">
@@ -120,7 +137,7 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-lg">{isadmin ? "Administrador" : "Almacen"}</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-lg">{isadmin ? "Administrador" : isEntradas ? "Entradas" : "Almacen"}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {itemsChoice.map((item) => (

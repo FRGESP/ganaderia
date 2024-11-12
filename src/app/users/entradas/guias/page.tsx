@@ -1,6 +1,8 @@
 import Dashboard from "@/components/ui/Entradas/dashboard"
+import { checkRole } from "@/actions";
 
-function EntradasPage() {
+async function EntradasPage() {
+  await checkRole(3);
   return (
     <Dashboard/>
   )

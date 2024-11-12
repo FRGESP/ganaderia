@@ -61,6 +61,11 @@ function Dashboard() {
     setReemo(false);
     setAnimales([]);
     getcorrales();
+    toast({
+      title: "Guia REEMO registrada",
+      description: "Se ha registrado la guia REEMO correctamente",
+      variant: "success",
+    });
   };
 
   //Interfaz para los corrales obtenidos de la base de datos
@@ -123,6 +128,13 @@ function Dashboard() {
       const session = await getReemo();
       setReemo(true);
       setSessionInfoActual(session);
+      setInputValues({
+        ...inputValues,
+        inputReemo: "",
+        selectMotivo: "",
+        selectCorral: "",
+        selectSexo: "",
+      });
       await getlist();
     }
   };
@@ -136,13 +148,6 @@ function Dashboard() {
     );
     if(res === true){
       getReemoAndSetTrue(false);
-    setInputValues({
-      ...inputValues,
-      inputReemo: "",
-      selectMotivo: "",
-      selectCorral: "",
-      selectSexo: "",
-    });
     } else {
       toast({
         title: "REEMO ya registrado",
@@ -200,7 +205,7 @@ function Dashboard() {
       <div className="w-[55%] border border-black overflow-x-auto">
         <div className={`${reemo === false ? "" : "hidden"}`}>
           <div className="flex justify-center mt-[20%]">
-            <div className="border border-black w-[80%] grid grid-cols-1 align-center p-4">
+            <div className="border-2 border-black w-[80%] grid grid-cols-1 align-center p-4 shadow-lg">
               <label className="text-lg font-bold text-center">
                 Inserte la guia REEMO
               </label>
@@ -225,7 +230,6 @@ function Dashboard() {
                   className="border border-black py-4 text-xl rounded-xl"
                   onChange={handleSelectChange}
                   value={inputValues.selectMotivo}
-                  defaultValue=""
                 >
                   <option value="" disabled>Motivo</option>
                   <option value="1">Cria</option>
@@ -241,7 +245,6 @@ function Dashboard() {
                   className="border border-black py-4 text-xl rounded-xl text-black px-7"
                   onChange={handleSelectChange}
                   value={inputValues.selectCorral}
-                  defaultValue=""
                 >
                   <option value="" disabled>
                     Corral
@@ -265,7 +268,6 @@ function Dashboard() {
                   className="border border-black py-4 text-xl rounded-xl text-black"
                   onChange={handleSelectChange}
                   value={inputValues.selectSexo}
-                  defaultValue=""
                 >
                   <option value="" disabled>
                     Sexo
@@ -278,7 +280,7 @@ function Dashboard() {
               <div className="flex justify-center mt-8">
                 <button
                   onClick={() => handleInputReemo()}
-                  className="border border-black bg-acento hover:bg-acentohover w-[70%] p-7 text-xl rounded-full py-4 text-white"
+                  className=" bg-acento hover:bg-acentohover w-[70%] p-7 text-xl rounded-full py-4 text-white"
                 >
                   Ingresar
                 </button>
@@ -352,7 +354,6 @@ function Dashboard() {
                         id="selectEstado"
                         className="border border-black py-4 text-xl rounded-xl text-black"
                         onChange={handleSelectChange}
-                        defaultValue=""
                         value={inputValues.selectEstado}
                       >
                         <option value="" disabled>
@@ -391,7 +392,7 @@ function Dashboard() {
                   <th>Arete</th>
                   <th>Sexo</th>
                   <th>Meses</th>
-                  <th>Clasificacion</th>
+                  <th>Clasificación</th>
                   <th>Peso</th>
                   <th>Estado</th>
                 </tr>

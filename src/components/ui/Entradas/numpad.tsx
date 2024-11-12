@@ -46,9 +46,9 @@ function Numpad({ inputValue, onchange }: NumpadProps) {
           ))}      
         </div>
         <div className="grid grid-cols-3">
-        <button key="." className="font-bold text-lg border border-black hover:bg-gray-300 rounded-md py-[4vh]"
+        <button disabled key="" className="font-bold text-lg border border-black rounded-md py-[4vh]"
         onClick={() => handleButtonClick(".")}
-        >.</button>
+        ></button>
         <button key={0} className="font-bold text-lg border border-black hover:bg-gray-300 rounded-md py-[4vh]"
         onClick={() => handleButtonClick("0")}
         >0</button>
