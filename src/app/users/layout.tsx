@@ -17,6 +17,9 @@ export default async function Layout({ children }: { children: React.ReactNode }
           {children}
           <Toaster />
         </main>
+        {/* <footer className="w-full bg-gray-800 text-white py-4 text-center">
+      © 2024 BlackWaves. Todos los derechos reservados.
+    </footer> */}
       </div>
     </SidebarProvider>
   )

@@ -15,8 +15,8 @@ export type Empleados = {
 //   Acciones: undefined
 }
 import { Button } from "@/components/ui/button"
-import ButtonDelete from "@/components/ui/Empleados/buttonDelete"
-import ButtonEditEmpleados from "@/components/ui/Empleados/buttonEdit"
+import ButtonDelete from "@/components/ui/admin/Empleados/buttonDelete"
+import ButtonEditEmpleados from "@/components/ui/admin/Empleados/buttonEdit"
 
 const columnas = ["Id", "Nombre", "Apellido Paterno", "Apellido Materno", "Edad", "Telefono", "Rol", "Sueldo", "Estatus"]
 

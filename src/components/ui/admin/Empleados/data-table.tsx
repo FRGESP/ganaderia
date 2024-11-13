@@ -1,7 +1,7 @@
 "use client"
 import * as React from "react"
 import { ListFilter } from 'lucide-react';
-import AddEmpleadosButton from "@/components/ui/Empleados/addEmpleadosButton";
+import AddEmpleadosButton from "@/components/ui/admin/Empleados/addEmpleadosButton";
 
 import {
   ColumnDef,

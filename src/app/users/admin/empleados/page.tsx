@@ -1,6 +1,6 @@
 import axios from "axios"
 import { Empleados, columns } from "./columns"
-import { DataTable } from "@/components/ui/Empleados/data-table"
+import { DataTable } from "@/components/ui/admin/Empleados/data-table"
 import { getId } from "@/actions"
 import { Suspense } from "react"
 import Loading from "@/app/users/admin/empleados/loading"
