@@ -30,11 +30,6 @@ function GuiasDashboard() {
     });
   };
 
-  //Controla cuando se selecciona un botón en la tabla
-  const handleSelectGuia = (reemo: string) => {
-    console.log(reemo);
-  }
-
   const getGuias = async () => {
     console.log(inputValues);
     const response = await axios.post("/api/users/admin/guias", inputValues);
@@ -74,7 +69,7 @@ function GuiasDashboard() {
           <Search size={44} />
         </button>
       </div>
-      <div className="border-2 border-black mt-16 h-[80%] rounded-lg shadow-lg">
+      <div className=" mt-16 max-h-[80%] rounded-lg shadow-lg">
         <table>
           <thead>
             <tr>
