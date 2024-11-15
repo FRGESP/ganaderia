@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Check, Pen } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 interface GuiaFormProps {
   idGuia: String;
@@ -10,6 +11,7 @@ interface GuiaFormProps {
 
 function GuiaForm({ idGuia }: GuiaFormProps) {
   const { toast } = useToast();
+  const router = useRouter();
 
   interface GuiasInfo {
     REEMO: string;
@@ -163,13 +165,38 @@ function GuiaForm({ idGuia }: GuiaFormProps) {
       });
       return;
     }
-    const response = await axios.post(`/api/users/admin/guias/${idGuia}`, inputGuia);
+    const formData = new FormData();
+    if(file){
+      formData.append('file', file as Blob);
+    } else{
+      toast({
+        title: "Fierros faltantes",
+        description: "Falta la imagen de los fierros",
+        variant: "destructive",
+      });
+      return;
+    }
+    formData.append('Psg', inputGuia.Psg);
+    formData.append('Nombre', inputGuia.Nombre);
+    formData.append('RazonSocial', inputGuia.RazonSocial);
+    formData.append('Localidad', inputGuia.Localidad);
+    formData.append('Municipio', inputGuia.Municipio);
+    formData.append('Estado', inputGuia.Estado);
+
+    
+    
+    const response = await axios.post(`/api/users/admin/guias/${idGuia}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
    if(response.status === 200){
     toast({
       title: "Guia guardada",
       description: "Se guardó la guia correctamente",
       variant: "success",
     })
+    router.push('/users/admin/guias');
    }
   };
 
@@ -196,7 +223,7 @@ function GuiaForm({ idGuia }: GuiaFormProps) {
             PSG:
           </label>
           <input
-            type="text"
+            type="number"
             className="w-full border border-black px-2 py-2 rounded-md"
             onChange={handleChangeGuia}
             name="Psg"

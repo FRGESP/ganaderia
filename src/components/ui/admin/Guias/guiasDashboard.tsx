@@ -60,7 +60,7 @@ function GuiasDashboard() {
         >
           <option value="">Todas</option>
           <option value="Pendiente">Pendiente</option>
-          <option value="Completada">Completada</option>
+          <option value="Completado">Completado</option>
         </select>
         <button
           className=" ml-1 rounded-md p-2 hover:bg-gray-200"
