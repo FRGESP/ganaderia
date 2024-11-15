@@ -42,23 +42,27 @@ export async function POST(request, { params }) {
   try {
     const req = await request.formData();
     const file = req.get("file");
+    let URLImage = 1;
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const filepath = path.join(process.cwd(), "public", file.name);
-    await writeFile(filepath, buffer);
-    const resImage = await cloudinary.uploader.upload(filepath);
-    await fs.unlink(filepath);
-
+    if(file) {
+        const bytes = await file.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+        const filepath = path.join(process.cwd(), "public", file.name);
+        await writeFile(filepath, buffer);
+        const resImage = await cloudinary.uploader.upload(filepath);
+        await fs.unlink(filepath);
+        URLImage = resImage.secure_url;
+    }
+    
     const result = await conn.query(`CALL CREATEGUIA(?,?,?,?,?,?,?,?)`, [
       params.id,
-      req.get("Psg"),
+      req.get("PSG"),
       req.get("Nombre"),
       req.get("RazonSocial"),
       req.get("Localidad"),
       req.get("Municipio"),
       req.get("Estado"),
-      resImage.secure_url,
+      URLImage,
     ]);
     return NextResponse.json({ message: "Guía creada", status: 200 });
   } catch (error) {
