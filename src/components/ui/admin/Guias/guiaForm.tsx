@@ -124,7 +124,6 @@ function GuiaForm({ idGuia }: GuiaFormProps) {
     setAnimales(response.data[1]);
 
     if (response.data[2][0].IdGuia != 0) {
-      console.log(response.data[2][0]);
       setGuiaInputs(response.data[2][0]);
       setInputGuia({
         PSG: response.data[2][0].PSG,

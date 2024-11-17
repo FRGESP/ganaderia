@@ -1,7 +1,9 @@
+import DietasDashboard from "@/components/ui/almacen/dietas/dietasDashboard"
+
 function dietasPage() {
   return (
     <div>
-      Esta es la pagina de dietas
+      <DietasDashboard />
     </div>
   )
 }
