@@ -1,13 +1,13 @@
-import AnimalDashboard from "@/components/ui/Entradas/animalDashboard";
+import DashboardCorral from "@/components/ui/Entradas/corralDashboard";
 
 interface Params {
-    id: string;
+    id: number;
 }
 
 function AnimalAdminpage({params}: {params: Params}) {
   return (
     <div>
-      <AnimalDashboard AreteAnimal={params.id} Admin={true}/>
+      <DashboardCorral CorralSelected={params.id} Rol={1}/>
     </div>
   )
 }
