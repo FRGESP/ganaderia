@@ -11,7 +11,6 @@ interface DashboardProps {
 
 function DashboardCorrales({ Rol }: DashboardProps) {
   //La ruta según el rol
-
   const ruta =
     Rol == 1
       ? "/users/admin/ganado"
@@ -172,7 +171,7 @@ function DashboardCorrales({ Rol }: DashboardProps) {
   return (
     <div className="w-full h-[90vh] p-10">
       {!showCorralData && (
-        <div className="flex">
+        <div className="flex mb-8">
           <input
             type="text"
             name="search"
@@ -197,7 +196,7 @@ function DashboardCorrales({ Rol }: DashboardProps) {
               inputValue.search = "";
               getCorrales();
             }}
-            className=" bg-acento hover:bg-green-600 rounded-md p-1"
+            className=" bg-acento hover:bg-green-600 rounded-md p-1 max-h-12"
           >
             <ArrowBigLeft className="text-white h-10 w-10" />
           </button>
@@ -207,98 +206,105 @@ function DashboardCorrales({ Rol }: DashboardProps) {
             )}
 
             {!isCuartena && (
-              <div className="flex">
-                {!isEditing && (
-                  <p className="font-bold text-3xl mr-2 ml-8">
-                    {corralData?.Nombre}
-                  </p>
-                )}
-                {isEditing && (
-                  <input
-                    type="text"
-                    defaultValue={corralData?.Nombre}
-                    className="text-lg border border-black mr-2 max-h-10 max-w-24 px-2"
-                    onChange={handleChange}
-                    name="nombreCorral"
-                    autoFocus
-                  />
-                )}
-                <button
-                  className={`${
-                    !isEditing
-                      ? "bg-yellow-600 hover:bg-yellow-700"
-                      : "bg-acento hover:bg-green-600"
-                  } rounded-md p-1 max-h-10`}
-                  onClick={
-                    !isEditing ? () => setIsEditing(true) : handleEditButton
-                  }
-                >
-                  {!isEditing ? (
-                    <Pencil className="text-white h-7 w-7" />
-                  ) : (
-                    <Check className="text-white h-7 w-7" />
+              <div>
+                <div className="flex">
+                  {!isEditing && (
+                    <p className="font-bold text-3xl mr-2 ml-8">
+                      {corralData?.Nombre}
+                    </p>
                   )}
-                </button>
-                <p className="font-bold text-3xl ml-10">
-                  Cantidad: {corralData?.Cantidad}
-                </p>
-                <p className="font-bold text-3xl ml-10">
-                  REEMO: {corralData?.REEMO}
-                </p>
-                <p className="font-bold text-3xl ml-10">
-                  Motivo: {corralData?.Motivo}
-                </p>
-                <p className="font-bold text-3xl ml-10">
-                  Fecha: {corralData?.FECHA}
-                </p>
-                {!isEditingDieta ? (
-                  <p className="font-bold text-3xl ml-10">
-                    Dieta: {corralData?.Dieta ? corralData?.Dieta : "Sin Dieta"}
-                  </p>
-                ) : (
-                  <select
-                    className="ml-10 w-52 border border-black rounded-md max-h-10"
-                    defaultValue={`${
-                      corralData?.IdDieta ? corralData?.IdDieta : ""
-                    }`}
-                    onChange={handleChange}
-                    name="dieta"
+                  {isEditing && (
+                    <input
+                      type="text"
+                      defaultValue={corralData?.Nombre}
+                      className="text-lg border border-black mr-2 max-h-10 max-w-24 px-2"
+                      onChange={handleChange}
+                      name="nombreCorral"
+                      autoFocus
+                    />
+                  )}
+                  <button
+                    className={`${
+                      !isEditing
+                        ? "bg-yellow-600 hover:bg-yellow-700"
+                        : "bg-acento hover:bg-green-600"
+                    } rounded-md p-1 max-h-10`}
+                    onClick={
+                      !isEditing ? () => setIsEditing(true) : handleEditButton
+                    }
                   >
-                    <option value="" disabled>
-                      Dieta
-                    </option>
-                    <option value="1">Abasto</option>
-                    <option value="2">Inicio</option>
-                    <option value="3">Desarrollo</option>
-                    <option value="4">Engorda</option>
-                    <option value="5">Finalización</option>
-                  </select>
-                )}
-                <button
-                  className={`${
-                    !isEditingDieta
-                      ? "bg-yellow-600 hover:bg-yellow-700"
-                      : "bg-acento hover:bg-green-600"
-                  } rounded-md p-1 ml-2 max-h-10`}
-                  onClick={
-                    !isEditingDieta
-                      ? () => setIsEditingDieta(true)
-                      : () => handleEditDieta()
-                  }
-                >
+                    {!isEditing ? (
+                      <Pencil className="text-white h-7 w-7" />
+                    ) : (
+                      <Check className="text-white h-7 w-7" />
+                    )}
+                  </button>
+                  <p className="font-bold text-3xl ml-7">
+                    Cantidad: {corralData?.Cantidad}
+                  </p>
+                  <p className="font-bold text-3xl ml-7">
+                    REEMO: {corralData?.REEMO}
+                  </p>
+                  <p className="font-bold text-3xl ml-7">
+                    Motivo: {corralData?.Motivo}
+                  </p>
+                  <p className="font-bold text-3xl ml-7">
+                    Fecha: {corralData?.FECHA}
+                  </p>
                   {!isEditingDieta ? (
-                    <Pencil className="text-white h-7 w-7" />
+                    <p className="font-bold text-3xl ml-7">
+                      Dieta: {corralData?.Dieta ? corralData?.Dieta : "Sin Dieta"}
+                    </p>
                   ) : (
-                    <Check className="text-white h-7 w-7" />
+                    <select
+                      className="ml-7 w-52 border border-black rounded-md max-h-10"
+                      defaultValue={`${
+                        corralData?.IdDieta ? corralData?.IdDieta : ""
+                      }`}
+                      onChange={handleChange}
+                      name="dieta"
+                    >
+                      <option value="" disabled>
+                        Dieta
+                      </option>
+                      <option value="1">Abasto</option>
+                      <option value="2">Inicio</option>
+                      <option value="3">Desarrollo</option>
+                      <option value="4">Engorda</option>
+                      <option value="5">Finalización</option>
+                    </select>
                   )}
-                </button>
+                  <button
+                    className={`${
+                      !isEditingDieta
+                        ? "bg-yellow-600 hover:bg-yellow-700"
+                        : "bg-acento hover:bg-green-600"
+                    } rounded-md p-1 ml-2 max-h-10`}
+                    onClick={
+                      !isEditingDieta
+                        ? () => setIsEditingDieta(true)
+                        : () => handleEditDieta()
+                    }
+                  >
+                    {!isEditingDieta ? (
+                      <Pencil className="text-white h-7 w-7" />
+                    ) : (
+                      <Check className="text-white h-7 w-7" />
+                    )}
+                  </button>
+                </div>
+                <div className="flex justify-center py-6">
+                {corralData?.Dieta && (
+                  <button className=" bg-acento hover:bg-acentohover p-2 px-20 text-white ml-5 rounded-md max-h-12">Alimentar</button>
+                )}
+                </div>
               </div>
             )}
           </div>
         </div>
       )}
       <div
-        className={`border-2 border-black h-[80%] overflow-y-auto mt-16 ${
+        className={`border-2 border-black h-[80%] overflow-y-auto ${
           showCorralData ? "" : "grid grid-cols-4 gap-6 p-6"
         }`}
       >

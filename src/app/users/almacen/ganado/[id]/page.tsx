@@ -1,3 +1,5 @@
+import AnimalDashboard from "@/components/ui/Entradas/animalDashboard";
+
 interface Params {
     id: string;
 }
@@ -5,7 +7,7 @@ interface Params {
 function AnimalAlmacenpage({params}: {params: Params}) {
   return (
     <div>
-      {params.id}
+      <AnimalDashboard AreteAnimal={params.id} Admin={false}/>
     </div>
   )
 }
