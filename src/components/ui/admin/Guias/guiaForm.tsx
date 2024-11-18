@@ -95,9 +95,7 @@ function GuiaForm({ idGuia }: GuiaFormProps) {
       document.querySelectorAll(".inputGuia").forEach((input) => {
         const inputVar = input as HTMLInputElement;
         inputVar.disabled = true;
-        console.log(inputVar.name);
         if (guiaInputs) {
-          console.log(guiaInputs[inputVar.name as keyof GuiasInputsInfo]);
           inputVar.defaultValue =
             guiaInputs[inputVar.name as keyof GuiasInputsInfo] || "";
         }
