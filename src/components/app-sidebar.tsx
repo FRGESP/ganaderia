@@ -17,7 +17,6 @@ import {
   SidebarFooter,
   SidebarHeader
 } from "@/components/ui/sidebar";
-import { url } from "inspector";
 
 // Menu items.
 const itemsAlmacen = [
@@ -26,6 +25,13 @@ const itemsAlmacen = [
     url: "/users/almacen/dietas",
     icon: "/assets/Almacen/Maiz.png",
     iconBold: "/assets/Almacen/MaizVerde.png",
+  },
+  {
+    title: "Almacén",
+    url: "/users/almacen/almacenpage",
+    icon: "/assets/Almacen/Almacen.png",
+    iconBold: "/assets/Almacen/AlmacenVerde.png",
+
   },
   {
     title: "Medicamento",
@@ -38,13 +44,6 @@ const itemsAlmacen = [
     url: "/users/almacen/ganado",
     icon: "/assets/Admin/Ganado.png",
     iconBold: "/assets/Admin/GanadoVerde.png",
-  },
-  {
-    title: "Almacén",
-    url: "/users/almacen/almacenpage",
-    icon: "/assets/Almacen/Almacen.png",
-    iconBold: "/assets/Almacen/AlmacenVerde.png",
-
   },
   {
     title: "Pedidos",

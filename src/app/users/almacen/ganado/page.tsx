@@ -1,8 +1,9 @@
+import DashboardCorrales from "@/components/ui/Entradas/corralesDashboard"
 
 function ganadoPage() {
   return (
     <div>
-      Esta es la página de ganado
+      <DashboardCorrales Rol={2}/>
     </div>
   )
 }

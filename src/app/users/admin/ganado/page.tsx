@@ -1,9 +1,9 @@
-import React from 'react'
+import DashboardCorrales from '@/components/ui/Entradas/corralesDashboard'
 
 function ganadoAdminPage() {
   return (
     <div>
-      Esta es la página de ganado de administración
+      <DashboardCorrales Rol={1}/>
     </div>
   )
 }

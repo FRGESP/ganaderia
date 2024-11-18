@@ -2,7 +2,7 @@ import DashboardCorrales from "@/components/ui/Entradas/corralesDashboard"
 
 async function EntradasPage() {
   return (
-    <DashboardCorrales/>
+    <DashboardCorrales Rol={3}/>
   )
 }
 

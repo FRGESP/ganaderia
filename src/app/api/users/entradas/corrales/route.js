@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server'
 import { conn } from '@/lib/mysql'
 import { request } from 'http'
+import { stat } from 'fs'
 
 export async function POST(req) {
     try{
@@ -21,7 +22,7 @@ export async function PUT(req) {
         console.log(request);
         const [res] = await conn.query('CALL UPDATENAMECORRAL(?,?)', [request.Nombre, request.Id]);
 
-        return NextResponse.json(res[0][0]);
+        return NextResponse.json(res[0][0],{status:200});
     }catch(error)
     {
         console.log(error);
