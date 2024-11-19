@@ -28,3 +28,20 @@ export async function POST(req) {
         })
     }
 }
+
+export async function PUT(req) {
+    
+    const data = await req.json();
+    try{
+        const [result] = await conn.query('CALL ALIMENTARCORRAL(?)', [data.Corral]);
+    return NextResponse.json(result)
+    } catch(error){
+        console.log(error)
+        return NextResponse.json({
+            message:error
+        },
+        {
+            status:500
+        })
+    }
+}
