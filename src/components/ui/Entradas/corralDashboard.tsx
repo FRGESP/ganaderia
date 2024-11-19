@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
+import FormulaModal from "@/components/ui/Entradas/formulaModal";
 
 interface DashboardProps {
   Rol: number;
@@ -74,12 +75,6 @@ function DashboardCorral({ Rol, CorralSelected }: DashboardProps) {
     });
   };
 
-  //Cuando se alimenta el corral
-  const handleAlimentacion = async () => {
-    console.log('alimentando');
-    const response = await axios.put(`/api/entradas/corrales`,{Corral: CorralSelected});
-    console.log(response.data);
-  }
 
   //Cuando se selecciona un corral
   const getCorralData = async () => {
@@ -255,7 +250,7 @@ function DashboardCorral({ Rol, CorralSelected }: DashboardProps) {
                 </div>
                 <div className="flex justify-center py-6">
                 {corralData?.Dieta && (
-                  <button className=" bg-acento hover:bg-acentohover p-2 px-20 text-white ml-5 rounded-md max-h-12" onClick={handleAlimentacion}>Alimentar</button>
+                  <FormulaModal CorralProp={CorralSelected} CantidadAnimalesProp={corralData.Cantidad}/>
                 )}
                 </div>
               </div>
