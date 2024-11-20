@@ -87,7 +87,7 @@ function AnimalDashboard({ AreteAnimal, Admin, Rol }: AnimalDashboardProps) {
   };
 
   const handleEditAnimal = async () => {
-    if(confirm(`Se actualizarán los siguientes datos: \n Meses: ${inputValues.Meses} \n Estado: ${inputValues.Estado} \n Peso: ${inputValues.Peso} Kg \n ¿Desea continuar?`)) {
+    if(confirm(`Se actualizarán los datos del animal ${AreteAnimal}`)) {
       const response = await axios.put(`/api/entradas/corrales/animales/${AreteAnimal}`, {Meses: inputValues.Meses, Estado: inputValues.Estado, Sexo: animal?.Sexo, Peso: inputValues.Peso});
       if(response.status == 200){
         toast({

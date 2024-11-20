@@ -42,6 +42,7 @@ function DashboardCorral({ Rol, CorralSelected }: DashboardProps) {
     Clasificacion: string;
     Estado: string;
     Peso: number;
+    Corral: string;
   }
 
 
@@ -89,6 +90,7 @@ function DashboardCorral({ Rol, CorralSelected }: DashboardProps) {
       setCorralData(response.data[0][0]);
       setCorralAnimals(response.data[1]);
     }
+    console.log(response.data);
   };
 
   //Cuando el usuario edita el nombre del corral
@@ -264,6 +266,7 @@ function DashboardCorral({ Rol, CorralSelected }: DashboardProps) {
             <thead className="sticky top-0">
               <tr>
                 <th>Arete</th>
+                {isCuartena && <th>Corral Original</th>}
                 <th>Sexo</th>
                 <th>Clasificación</th>
                 <th>Estado</th>
@@ -275,6 +278,7 @@ function DashboardCorral({ Rol, CorralSelected }: DashboardProps) {
               {corralAnimals.map((animal) => (
                 <tr key={animal.Arete}>
                   <td>{animal.Arete}</td>
+                  {isCuartena && <td>{animal.Corral}</td>}
                   <td>{animal.Sexo}</td>
                   <td>{animal.Clasificacion}</td>
                   <td>{animal.Estado}</td>

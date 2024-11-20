@@ -34,3 +34,48 @@ export async function PUT(req, {params}) {
         })
     }
 }
+
+export async function POST(req, {params}) {
+    try{
+        const request = await req.json();
+        const [res] = await conn.query('CALL SP_ADDCORRAL(?)', [request.Nombre]);
+
+        return NextResponse.json({
+            message: 'Corral creado'
+        },
+        {
+            status:200
+        })
+    }catch(error)
+    {
+        console.log(error);
+        return NextResponse.json({
+            message: error
+        },
+        {
+            status:501
+        })
+    }
+}
+
+export async function DELETE(req, {params}) {
+    try{
+        const [res] = await conn.query('CALL SP_DELETECORRAL(?)', [params.id]);
+
+        return NextResponse.json({
+            message: 'Corral Eliminado'
+        },
+        {
+            status:200
+        })
+    }catch(error)
+    {
+        console.log(error);
+        return NextResponse.json({
+            message: error
+        },
+        {
+            status:501
+        })
+    }
+}
