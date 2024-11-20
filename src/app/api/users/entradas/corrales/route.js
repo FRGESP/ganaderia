@@ -1,8 +1,7 @@
 //Esta es la ruta que se encarga de obtener los nombres de los corrales en la parte del usuario y de la página users/entradas/corrales
 import { NextResponse } from 'next/server'
 import { conn } from '@/lib/mysql'
-import { request } from 'http'
-import { stat } from 'fs'
+
 
 export async function POST(req) {
     try{

@@ -7,7 +7,7 @@ interface Params {
 function AnimalAdminpage({params}: {params: Params}) {
   return (
     <div>
-      <AnimalDashboard AreteAnimal={params.arete} Admin={true}/>
+      <AnimalDashboard AreteAnimal={params.arete} Admin={true} Rol={1}/>
     </div>
   )
 }

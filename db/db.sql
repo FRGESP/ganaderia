@@ -424,6 +424,34 @@ CREATE PROCEDURE OBTENERINFOSESSIONENTRADAS(IN MOTIVOIN INT, IN CORRALIN INT)
        SELECT MOTIVOCHAR AS MotivoChar, CORRALCHAR AS CorralChar;
     END;
 
+DROP FUNCTION IF EXISTS FN_GETCLASIFICACION;
+CREATE FUNCTION FN_GETCLASIFICACION(SEXOIN VARCHAR(30), MESESIN INT)
+    RETURNS VARCHAR(50)
+    DETERMINISTIC
+    BEGIN
+       IF(MESESIN < 16) THEN
+            IF(SEXOIN = 'Macho') THEN
+                RETURN 'Becerro';
+            ELSE
+                RETURN 'Becerra';
+            end if;
+            ELSE
+                IF(MESESIN < 24) THEN
+                    IF(SEXOIN = 'Macho') THEN
+                        RETURN 'Torete';
+                    ELSE
+                        RETURN 'Vacona';
+                    end if;
+                ELSE
+                    IF(SEXOIN = 'Macho') THEN
+                    RETURN 'Toro';
+                ELSE
+                    RETURN 'Vaca';
+                end if;
+                end if;
+            end if;
+    END;
+
 DROP PROCEDURE IF EXISTS ENTRADAANIMAL;
 CREATE PROCEDURE ENTRADAANIMAL(IN EMPLEADOIN INT,IN REEMOIN VARCHAR(50), IN MOTIVOIN INT, IN CORRALIN INT, IN SEXOIN VARCHAR(10), IN ARETEIN VARCHAR(50), IN MESESIN INT, IN PESOIN INT, IN ESTADOIN INT)
     -- VERIFICA QUE NO HAY UNA GUIA EXISTENTE PARA AGREGAR Y SI LA HAY CONTINUA CON ESA;
@@ -445,27 +473,7 @@ BEGIN
             INSERT INTO GUIAENTRADA (REEMO, Empleado, Motivo, ESTADO) VALUES (REEMOIN,EMPLEADOIN,MOTIVOIN,ESTADOIN);
         END IF;
 
-        IF(MESESIN < 16) THEN
-            IF(SEXOIN = 'MACHO') THEN
-                SET CLASIFICACIONVAR = 'Becerro';
-            ELSE
-                SET CLASIFICACIONVAR = 'Becerra';
-            end if;
-            ELSE
-                IF(MESESIN < 24) THEN
-                    IF(SEXOIN = 'MACHO') THEN
-                        SET CLASIFICACIONVAR = 'Torete';
-                    ELSE
-                        SET CLASIFICACIONVAR = 'Vacona';
-                    end if;
-                ELSE
-                    IF(SEXOIN = 'MACHO') THEN
-                    SET CLASIFICACIONVAR = 'Toro';
-                ELSE
-                    SET CLASIFICACIONVAR = 'Vaca';
-                end if;
-                end if;
-            end if;
+        SET CLASIFICACIONVAR = (SELECT FN_GETCLASIFICACION(SEXOIN, MESESIN));
 
             IF(ESTADOIN = 3) THEN -- SI ESTÁ MUERTO NO LO AGREGA A NINGUN CORRAL
                 SET CORRALOPTION = NULL;
@@ -576,13 +584,40 @@ DROP PROCEDURE IF EXISTS GETANIMALDATA;
         BEGIN
         DECLARE CANTIDADANIMALES INT;
         DECLARE CORRALACT INT;
-        SET CORRALACT = (SELECT Corral FROM GANADO WHERE Arete = ARETEIN LIMIT 1);
+        SET CORRALACT = (SELECT C.IdCorral FROM GANADO AS G INNER JOIN CORRAL AS C ON G.REEMO = C.REEMO WHERE G.Arete = ARETEIN);
         SET CANTIDADANIMALES = (SELECT Cantidad FROM CORRAL WHERE IdCorral = CORRALACT LIMIT 1);
-        SELECT G.Arete, G.REEMO, G.Sexo, G.Meses, G.Clasificacion, E.Estado, C.Corral, DATE_FORMAT(G.Fecha, '%d/%m/%Y') AS Fecha, G.Peso, FORMAT(G.PrecioCompra,2) AS Precio, FORMAT((SELECT GETPRECIOSUGERIDO(ARETEIN)),2) AS PrecioSugerido FROM GANADO AS G INNER JOIN CORRAL AS C ON G.Corral = C.IdCorral INNER JOIN ESTADOANIMAL AS E ON G.Estado = E.IdEstado WHERE G.Arete = ARETEIN;
+        SELECT G.Arete, G.REEMO, G.Sexo, G.Meses, G.Clasificacion, E.Estado, G.Estado AS EstadoId, C.Corral, DATE_FORMAT(G.Fecha, '%d/%m/%Y') AS Fecha, G.Peso, FORMAT(G.PrecioCompra,2) AS Precio, FORMAT((SELECT GETPRECIOSUGERIDO(ARETEIN)),2) AS PrecioSugerido FROM GANADO AS G INNER JOIN CORRAL AS C ON G.Corral = C.IdCorral INNER JOIN ESTADOANIMAL AS E ON G.Estado = E.IdEstado WHERE G.Arete = ARETEIN;
         SELECT  H.IdHistorial AS Id, D.Dieta, DATE_FORMAT(H.Fecha, '%d/%m/%Y') AS Fecha, FORMAT((H.Gasto/CANTIDADANIMALES),2) AS Gasto FROM HISTORIALALIMENTACION AS H INNER JOIN DIETA AS D on H.Dieta = D.IdDieta WHERE H.Corral = CORRALACT ORDER BY Fecha DESC;
         END;
 
+DROP PROCEDURE IF EXISTS SP_UPDATEANIMAL;
+CREATE PROCEDURE SP_UPDATEANIMAL(IN ARETEIN VARCHAR(100), IN MESESIN INT, IN ESTADOIN INT, IN SEXOIN VARCHAR(20), IN PESOIN INT)
+    BEGIN
+       DECLARE CLASIFICACIONVAR VARCHAR(30);
+       DECLARE CORRALVAR INT;
 
+       SET CLASIFICACIONVAR = (SELECT FN_GETCLASIFICACION(SEXOIN, MESESIN));
+
+       SET CORRALVAR = (SELECT Corral FROM GANADO WHERE Arete = ARETEIN LIMIT 1);
+
+       IF(ESTADOIN = 2) THEN
+           UPDATE CORRAL SET Cantidad = (Cantidad-1) WHERE IdCorral = CORRALVAR;
+           SET CORRALVAR = 1;
+           UPDATE CORRAL SET Cantidad = (Cantidad+1) WHERE IdCorral = 1;
+           ELSE
+                IF(ESTADOIN = 3) THEN
+                    SET CORRALVAR = NULL;
+                    UPDATE CORRAL SET Cantidad = (Cantidad-1) WHERE IdCorral = CORRALVAR;
+                end if;
+       end if;
+
+       IF(CORRALVAR = 1 AND ESTADOIN = 1) THEN
+           SET CORRALVAR = (SELECT C.IdCorral FROM GANADO AS G INNER JOIN CORRAL AS C ON G.REEMO = C.REEMO WHERE G.Arete = ARETEIN);
+           UPDATE CORRAL SET Cantidad = (Cantidad+1) WHERE IdCorral = CORRALVAR;
+           UPDATE CORRAL SET Cantidad = (Cantidad-1) WHERE IdCorral = 1;
+       end if;
+       UPDATE GANADO SET Meses = MESESIN, Clasificacion = CLASIFICACIONVAR, Corral = CORRALVAR, Peso = PESOIN, Estado = ESTADOIN WHERE Arete = ARETEIN;
+    END;
 
 -- Guias para el administrador
 

@@ -1,16 +1,30 @@
 "use client";
 
+import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import { Check, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
-import { set } from "zod";
+import { useRouter } from "next/navigation";
 
 interface AnimalDashboardProps {
   AreteAnimal: string;
   Admin: boolean;
+  Rol: number;
 }
 
-function AnimalDashboard({ AreteAnimal, Admin }: AnimalDashboardProps) {
+function AnimalDashboard({ AreteAnimal, Admin, Rol }: AnimalDashboardProps) {
+
+  const ruta =
+    Rol == 1
+      ? "/users/admin/ganado"
+      : Rol == 2
+      ? "/users/almacen/ganado"
+      : "/users/entradas/corrales";
+
+  const { toast } = useToast();
+
+  const router = useRouter();
+
   //Interface para el animal
   interface Animal {
     Arete: string;
@@ -19,6 +33,7 @@ function AnimalDashboard({ AreteAnimal, Admin }: AnimalDashboardProps) {
     Meses: number;
     Clasificacion: string;
     Estado: string;
+    EstadoId: number;
     Corral: string;
     Fecha: string;
     Peso: number;
@@ -43,18 +58,59 @@ function AnimalDashboard({ AreteAnimal, Admin }: AnimalDashboardProps) {
   //Controla el estado de edición
   const [isEditing, setIsEditing] = useState(false);
 
-    //Obtiene la información del animal
-    const getAnimal = async () => {
-      const response = await axios.get(`/api/entradas/corrales/animales/${AreteAnimal}`);
-      console.log(response.data);  
-      setAnimal(response.data[0][0]);
-      console.log(response.data[1]);
-      setAlimentacion(response.data[1]);
-    };
+  //Guarda la informacion de los inputs
+  const [inputValues, setInputValues] = useState({
+    Meses: "",
+    Estado: "",
+    Peso: "",
+  });
 
-    useEffect(() => {
-        getAnimal();
-    }, []);
+  //Controla el cambio de los inputs
+  const handleChange = (e: any) => {
+    setInputValues({
+      ...inputValues,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  //Obtiene la información del animal
+  const getAnimal = async () => {
+    const response = await axios.get(
+      `/api/entradas/corrales/animales/${AreteAnimal}`
+    );
+    setAnimal(response.data[0][0]);
+    inputValues.Meses = response.data[0][0].Meses;
+    inputValues.Estado = response.data[0][0].EstadoId;
+    inputValues.Peso = response.data[0][0].Peso;
+    console.log(response.data[1]);
+    setAlimentacion(response.data[1]);
+  };
+
+  const handleEditAnimal = async () => {
+    if(confirm(`Se actualizarán los siguientes datos: \n Meses: ${inputValues.Meses} \n Estado: ${inputValues.Estado} \n Peso: ${inputValues.Peso} Kg \n ¿Desea continuar?`)) {
+      const response = await axios.put(`/api/entradas/corrales/animales/${AreteAnimal}`, {Meses: inputValues.Meses, Estado: inputValues.Estado, Sexo: animal?.Sexo, Peso: inputValues.Peso});
+      if(response.status == 200){
+        toast({
+          title: "Animal actualizado",
+          description: "El animal ha sido actualizado",
+          variant: "success",
+        });
+        router.push(ruta);
+        router.refresh();
+      } else {
+        toast({
+          title: "Error",
+          description: "Ha ocurrido un error",
+          variant: "destructive",
+        });
+      }
+    }
+    getAnimal();
+  } 
+
+  useEffect(() => {
+    getAnimal();
+  }, []);
 
   return (
     <div className="p-10 h-[90vh]">
@@ -75,80 +131,120 @@ function AnimalDashboard({ AreteAnimal, Admin }: AnimalDashboardProps) {
               <th>Fecha</th>
               <th>Peso</th>
               {Admin && <th>Precio Compra</th>}
-              {animal?.Precio && Admin ? <th>Precio Sugerido</th> : ''}
+              {animal?.Precio && Admin ? <th>Precio Sugerido</th> : ""}
               <th>Acción</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-                <td>{animal?.Arete}</td>
-                <td>{animal?.REEMO}</td>
-                <td>{animal?.Sexo}</td>
-                <td>{animal?.Meses}</td>
-                <td>{animal?.Clasificacion}</td>
-                <td>{animal?.Estado}</td>
-                <td>{animal?.Corral}</td>
-                <td>{animal?.Fecha}</td>
-                <td>{animal?.Peso} Kg</td>
-                {Admin && <td>{!animal?.Precio ? 'Falta' : `$${animal?.Precio}`}</td>}
-                {animal?.Precio && Admin ? <td>${animal.PrecioSugerido}</td> : ''}
-                <td><div className="flex justify-center items-center">
-                    <button
-                      className={`${
-                        !isEditing
-                          ? "bg-yellow-600 hover:bg-yellow-700"
-                          : "bg-acento hover:bg-green-600"
-                      } rounded-md p-1 max-h-10`}
-                      onClick={() => setIsEditing(!isEditing)}
-                    >
-                      {!isEditing ? (
-                        <Pencil className="text-white h-7 w-7" />
-                      ) : (
-                        <Check className="text-white h-7 w-7" />
-                      )}
-                    </button>
-                </div></td>
+              <td>{animal?.Arete}</td>
+              <td>{animal?.REEMO}</td>
+              <td>{animal?.Sexo}</td>
+              <td>
+                {!isEditing ? (
+                  animal?.Meses
+                ) : (
+                  <input
+                    type="number"
+                    name="Meses"
+                    className="border border-black rounded-md py-1 w-20 px-2"
+                    onChange={handleChange}
+                    defaultValue={animal?.Meses}
+                  />
+                )}
+              </td>
+              <td>{animal?.Clasificacion}</td>
+              <td>
+                {!isEditing ? (
+                  animal?.Estado
+                ) : (
+                  <select className="border border-black rounded-md py-1" defaultValue={animal?.EstadoId} onChange={handleChange} name="Estado">
+                    <option value="1">Saludable</option>
+                    <option value="2">Enfermo</option>
+                    <option value="3">Muerto</option>
+                  </select>
+                )}
+              </td>
+              <td>{animal?.Corral}</td>
+              <td>{animal?.Fecha}</td>
+              <td>
+                {!isEditing ? (
+                  `${animal?.Peso} Kg`
+                ) : (
+                  <input
+                    type="number"
+                    name="Peso"
+                    className="border border-black rounded-md py-1 w-20 px-2"
+                    onChange={handleChange}
+                    defaultValue={animal?.Peso}
+                  />
+                )}
+              </td>
+              {Admin && (
+                <td>{!animal?.Precio ? "Sin registro" : `$${animal?.Precio}`}</td>
+              )}
+              {animal?.Precio && Admin ? <td>${animal.PrecioSugerido}</td> : ""}
+              <td>
+                <div className="flex justify-center items-center">
+                  <button
+                    className={`${
+                      !isEditing
+                        ? "bg-yellow-600 hover:bg-yellow-700"
+                        : "bg-acento hover:bg-green-600"
+                    } rounded-md p-1 max-h-10`}
+                    onClick={() => {setIsEditing(!isEditing); isEditing ? handleEditAnimal() : ''} }
+                  >
+                    {!isEditing ? (
+                      <Pencil className="text-white h-7 w-7" />
+                    ) : (
+                      <Check className="text-white h-7 w-7" />
+                    )}
+                  </button>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
       <div className="w-full grid grid-cols-2 gap-5">
-          <div>
-            <p className="font-bold text-3xl mt-5 text-center mb-5">Alimentación</p>
-            {alimentacion.length > 0 ? (
-              <table>
-                <thead>
-                  <tr>
-                    <th>Dieta</th>
-                    <th>Fecha</th>
-                    {Admin && <th>Gasto</th>}
+        <div>
+          <p className="font-bold text-3xl mt-5 text-center mb-5">
+            Alimentación
+          </p>
+          {alimentacion.length > 0 ? (
+            <table>
+              <thead>
+                <tr>
+                  <th>Dieta</th>
+                  <th>Fecha</th>
+                  {Admin && <th>Gasto</th>}
+                </tr>
+              </thead>
+              <tbody>
+                {alimentacion.map((alimento) => (
+                  <tr key={alimento.Id}>
+                    <td>{alimento.Dieta}</td>
+                    <td>{alimento.Fecha}</td>
+                    {Admin && <td>${alimento.Gasto}</td>}
                   </tr>
-                </thead>
-                <tbody>
-                  {alimentacion.map((alimento) => (
-                    <tr key={alimento.Id}>
-                      <td>{alimento.Dieta}</td>
-                      <td>{alimento.Fecha}</td>
-                      {Admin && <td>${alimento.Gasto}</td>}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ):(<div className="min-h-20 w-full h-[calc(100%-4.7rem)] flex justify-center items-center border border-black rounded-md">
-              <p className="font-bold text-3xl mt-5">
-                Sin datos aún
-              </p>
-            </div>)}
-          </div>
-          <div>
-          <p className="font-bold text-3xl mt-5 text-center mb-5">Medicamento</p>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <div className="min-h-20 w-full h-[calc(100%-4.7rem)] flex justify-center items-center border border-black rounded-md">
+              <p className="font-bold text-3xl mt-5">Sin datos aún</p>
+            </div>
+          )}
+        </div>
+        <div>
+          <p className="font-bold text-3xl mt-5 text-center mb-5">
+            Medicamento
+          </p>
           <div className="min-h-20 w-full h-[calc(100%-4.7rem)] flex justify-center items-center border border-black rounded-md">
-                <p className="font-bold text-3xl mt-5">
-                  Sin datos aún
-                </p>
-              </div>
+            <p className="font-bold text-3xl mt-5">Sin datos aún</p>
           </div>
         </div>
+      </div>
     </div>
   );
 }
