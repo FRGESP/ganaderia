@@ -26,8 +26,19 @@ function AnimalDashboard({ AreteAnimal, Admin }: AnimalDashboardProps) {
     PrecioSugerido: number;
   }
 
+  //Interface para la alimentación
+  interface Alimentacion {
+    Dieta: string;
+    Fecha: string;
+    Gasto: number;
+    Id: number;
+  }
+
   //Guarda la información del animal
   const [animal, setAnimal] = useState<Animal>();
+
+  //Guarda la información de la alimentación
+  const [alimentacion, setAlimentacion] = useState<Alimentacion[]>([]);
 
   //Controla el estado de edición
   const [isEditing, setIsEditing] = useState(false);
@@ -36,7 +47,9 @@ function AnimalDashboard({ AreteAnimal, Admin }: AnimalDashboardProps) {
     const getAnimal = async () => {
       const response = await axios.get(`/api/entradas/corrales/animales/${AreteAnimal}`);
       console.log(response.data);  
-      setAnimal(response.data[0]);
+      setAnimal(response.data[0][0]);
+      console.log(response.data[1]);
+      setAlimentacion(response.data[1]);
     };
 
     useEffect(() => {
@@ -76,7 +89,7 @@ function AnimalDashboard({ AreteAnimal, Admin }: AnimalDashboardProps) {
                 <td>{animal?.Estado}</td>
                 <td>{animal?.Corral}</td>
                 <td>{animal?.Fecha}</td>
-                <td>{animal?.Peso}</td>
+                <td>{animal?.Peso} Kg</td>
                 {Admin && <td>{!animal?.Precio ? 'Falta' : `$${animal?.Precio}`}</td>}
                 {animal?.Precio && Admin ? <td>${animal.PrecioSugerido}</td> : ''}
                 <td><div className="flex justify-center items-center">
@@ -99,6 +112,43 @@ function AnimalDashboard({ AreteAnimal, Admin }: AnimalDashboardProps) {
           </tbody>
         </table>
       </div>
+      <div className="w-full grid grid-cols-2 gap-5">
+          <div>
+            <p className="font-bold text-3xl mt-5 text-center mb-5">Alimentación</p>
+            {alimentacion.length > 0 ? (
+              <table>
+                <thead>
+                  <tr>
+                    <th>Dieta</th>
+                    <th>Fecha</th>
+                    {Admin && <th>Gasto</th>}
+                  </tr>
+                </thead>
+                <tbody>
+                  {alimentacion.map((alimento) => (
+                    <tr key={alimento.Id}>
+                      <td>{alimento.Dieta}</td>
+                      <td>{alimento.Fecha}</td>
+                      {Admin && <td>${alimento.Gasto}</td>}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ):(<div className="min-h-20 w-full h-[calc(100%-4.7rem)] flex justify-center items-center border border-black rounded-md">
+              <p className="font-bold text-3xl mt-5">
+                Sin datos aún
+              </p>
+            </div>)}
+          </div>
+          <div>
+          <p className="font-bold text-3xl mt-5 text-center mb-5">Medicamento</p>
+          <div className="min-h-20 w-full h-[calc(100%-4.7rem)] flex justify-center items-center border border-black rounded-md">
+                <p className="font-bold text-3xl mt-5">
+                  Sin datos aún
+                </p>
+              </div>
+          </div>
+        </div>
     </div>
   );
 }
