@@ -1,7 +1,9 @@
+import ArticulosDashboard from "@/components/ui/almacen/AlmacenPage/articulosDashboard"
+
 function AlmacenPage() {
   return (
     <div>
-      Esta es la pagina del almacen
+      <ArticulosDashboard Rol={2} />
     </div>
   )
 }
