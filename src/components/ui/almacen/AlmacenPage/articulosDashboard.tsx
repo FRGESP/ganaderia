@@ -8,9 +8,10 @@ import Link from "next/link";
 //Props de la página de ArticulosDashboard
 interface ArticulosDashboardProps {
     Rol: number;
+    CategoriaProp : number;
 }
 
-function ArticulosDashboard({Rol}: ArticulosDashboardProps) {
+function ArticulosDashboard({Rol, CategoriaProp}: ArticulosDashboardProps) {
 
     const ruta =
     Rol == 1
@@ -18,6 +19,8 @@ function ArticulosDashboard({Rol}: ArticulosDashboardProps) {
       : Rol == 2
       ? "/users/almacen/almacenpage"
       : "";
+
+      const categoria = CategoriaProp == 1 ? "Almacen" : "Medicamento";
 
 //Interface para los articulos
 interface Articulos {
@@ -37,7 +40,7 @@ const [articulos, setArticulos] = useState<Articulos[]>([]);
 
 //Obtiene los articulos
 const getArticulos = async () => {
-    const response = await axios.put("/api/users/almacen/almacenPage", {Nombre: inputValue.search});
+    const response = await axios.put("/api/users/almacen/almacenPage", {Nombre: inputValue.search, Categoria: categoria});
     setArticulos(response.data[0]);
 }
 

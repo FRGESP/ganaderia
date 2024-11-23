@@ -91,6 +91,12 @@ const itemsAdmin = [
     iconBold: "/assets/Almacen/AlmacenVerde.png",
   },
   {
+    title: "Medicamento",
+    url: "/users/admin/medicamento",
+    icon: "/assets/Almacen/Medicamentos.png",
+    iconBold: "/assets/Almacen/MedicamentosVerde.png",
+  },
+  {
     title: "Estadísticas",
     url: "/users/admin/estadisticas",
     icon: "/assets/Almacen/Estadisticas.png",

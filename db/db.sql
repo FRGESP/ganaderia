@@ -747,9 +747,9 @@ CREATE PROCEDURE DELETEDIETAFROMCORRAL(IN IDCORRALIN INT)
 -- Almacen
 
 DROP PROCEDURE IF EXISTS SP_GETARTICULOS;
-CREATE PROCEDURE SP_GETARTICULOS(IN NOMBREIN VARCHAR(100))
+CREATE PROCEDURE SP_GETARTICULOS(IN NOMBREIN VARCHAR(100), IN CATEGORIAIN VARCHAR(50))
     BEGIN
-        SELECT A.IdArticulo AS Id, A.Articulo, (CONCAT(FORMAT(SUM(L.Cantidad),2),' ', A.Unidad)) AS Existencia, FORMAT(SUM(L.Precio),2) AS Inversion FROM LOTE AS L RIGHT JOIN ARTICULO AS A on L.Articulo = A.IdArticulo  WHERE A.Categoria = 'Almacen' AND A.Estatus != 0 AND A.Articulo LIKE CONCAT('%',NOMBREIN,'%') GROUP BY A.Articulo, A.Unidad, A.IdArticulo;
+        SELECT A.IdArticulo AS Id, A.Articulo, (CONCAT(FORMAT(SUM(L.Cantidad),2),' ', A.Unidad)) AS Existencia, FORMAT(SUM(L.Precio),2) AS Inversion FROM LOTE AS L RIGHT JOIN ARTICULO AS A on L.Articulo = A.IdArticulo  WHERE A.Categoria = CATEGORIAIN AND A.Estatus != 0 AND A.Articulo LIKE CONCAT('%',NOMBREIN,'%') GROUP BY A.Articulo, A.Unidad, A.IdArticulo;
     END;
 
 DROP PROCEDURE IF EXISTS SP_ADDARTICULO;
@@ -859,6 +859,11 @@ INSERT INTO ARTICULO (Articulo, Categoria, Unidad) VALUES ('Microminerales','Alm
 INSERT INTO ARTICULO (Articulo, Categoria, Unidad) VALUES ('Urea','Almacen','Kg');
 INSERT INTO ARTICULO (Articulo, Categoria, Unidad) VALUES ('Zilpaterol','Almacen','Kg');
 
+INSERT INTO ARTICULO (Articulo, Categoria, Unidad) VALUES ('Penicilina', 'Medicamento', 'Ml');
+INSERT INTO ARTICULO (Articulo, Categoria, Unidad) VALUES ('Ivermectina', 'Medicamento', 'Ml');
+INSERT INTO ARTICULO (Articulo, Categoria, Unidad) VALUES ('Meloxicam','Medicamento', 'Ml');
+INSERT INTO ARTICULO (Articulo, Categoria, Unidad) VALUES ('Geringa', 'Medicamento', 'Pzas');
+
 INSERT INTO LOTE (Articulo, Cantidad, CantidadInicial, Precio, Empleado) VALUES (1,10000,10000, 30000, 1002);
 INSERT INTO LOTE (Articulo, Cantidad, CantidadInicial, Precio, Empleado) VALUES (2,10000, 10000, 50000, 1002);
 INSERT INTO LOTE (Articulo, Cantidad, CantidadInicial, Precio, Empleado) VALUES (3,10000, 10000, 10000, 1002);
@@ -871,6 +876,11 @@ INSERT INTO LOTE (Articulo, Cantidad, CantidadInicial, Precio, Empleado) VALUES 
 INSERT INTO LOTE (Articulo, Cantidad, CantidadInicial, Precio, Empleado) VALUES (10,10000,10000, 20000, 1002);
 INSERT INTO LOTE (Articulo, Cantidad, CantidadInicial, Precio, Empleado) VALUES (11,3000, 3000,15000, 1002);
 INSERT INTO LOTE (Articulo, Cantidad, CantidadInicial, Precio, Empleado) VALUES (12,200, 200,40000, 1002);
+
+INSERT INTO LOTE (Articulo, Cantidad, CantidadInicial, Precio, Empleado) VALUES (13,100, 100,300, 1002);
+INSERT INTO LOTE (Articulo, Cantidad, CantidadInicial, Precio, Empleado) VALUES (14,50, 50,400, 1002);
+INSERT INTO LOTE (Articulo, Cantidad, CantidadInicial, Precio, Empleado) VALUES (15,50, 50,500, 1002);
+INSERT INTO LOTE (Articulo, Cantidad, CantidadInicial, Precio, Empleado) VALUES (16,100, 100,2000, 1002);
 
 INSERT INTO DIETA_ARTICULO (Dieta, Articulo, Cantidad) VALUES (1, 1, 850);
 INSERT INTO DIETA_ARTICULO (Dieta, Articulo, Cantidad) VALUES (1, 2, 100);

@@ -3,7 +3,7 @@ import ArticulosDashboard from "@/components/ui/almacen/AlmacenPage/articulosDas
 function AlmacenPage() {
   return (
     <div>
-      <ArticulosDashboard Rol={2} />
+      <ArticulosDashboard Rol={2} CategoriaProp={1}/>
     </div>
   )
 }

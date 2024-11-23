@@ -4,7 +4,7 @@ import { conn } from "@/lib/mysql"
 export async function PUT(req) {
     try{
         const request = await req.json()
-        const [result] = await conn.query('CALL SP_GETARTICULOS(?)', [request.Nombre])
+        const [result] = await conn.query('CALL SP_GETARTICULOS(?,?)', [request.Nombre, request.Categoria])
         return NextResponse.json([result[0]])
     } catch(error){
         console.log(error)
