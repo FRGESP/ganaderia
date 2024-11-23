@@ -5,7 +5,12 @@ import { useToast } from "@/hooks/use-toast";
 import { Plus } from "lucide-react";
 import axios from "axios";
 
-function AddArticuloModal() {
+//Interfaz de los props
+interface AddArticuloModalProps {
+  CategoriaModalProp: string
+}
+
+function AddArticuloModal({CategoriaModalProp}: AddArticuloModalProps) {
   const { toast } = useToast();
 
   //Controla el estado del modal
@@ -38,6 +43,7 @@ function AddArticuloModal() {
     const response = await axios.post(`/api/users/almacen/almacenPage`, {
       Nombre: inputValue.nombre,
       Unidad: inputValue.unidad,
+      Categoria: CategoriaModalProp,
     });
     if (response.status == 200) {
       closeModal();

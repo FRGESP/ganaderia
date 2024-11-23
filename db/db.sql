@@ -753,9 +753,9 @@ CREATE PROCEDURE SP_GETARTICULOS(IN NOMBREIN VARCHAR(100), IN CATEGORIAIN VARCHA
     END;
 
 DROP PROCEDURE IF EXISTS SP_ADDARTICULO;
-CREATE PROCEDURE SP_ADDARTICULO(IN ARTICULOIN VARCHAR(100), IN UNIDADIN VARCHAR(20))
+CREATE PROCEDURE SP_ADDARTICULO(IN ARTICULOIN VARCHAR(100), IN UNIDADIN VARCHAR(20), IN CATEGORIAIN VARCHAR(50))
     BEGIN
-        INSERT INTO ARTICULO (Articulo, Categoria, Unidad) VALUES (ARTICULOIN, 'Almacen', UNIDADIN);
+        INSERT INTO ARTICULO (Articulo, Categoria, Unidad) VALUES (ARTICULOIN, CATEGORIAIN, UNIDADIN);
     END;
 
 -- LOTES
@@ -769,7 +769,7 @@ CREATE PROCEDURE SP_GETLOTES(IN ARTICULOIN INT)
         SET EXISTENCIA = (SELECT SUM(Cantidad) FROM LOTE WHERE Articulo = ARTICULOIN);
         SET INVERSION = (SELECT SUM(Precio) FROM LOTE WHERE Articulo = ARTICULOIN);
         SET CANTIDADLOTES = (SELECT COUNT(*) FROM LOTE WHERE Articulo = ARTICULOIN);
-       SELECT L.IdLote, A.Articulo, CONCAT(FORMAT(L.Cantidad,2),' ', A.Unidad) AS CantidadActual, L.Cantidad AS CantidadNumber, FORMAT(L.CantidadInicial, 2) AS CantidadInicial, FORMAT(L.Precio,2) AS Precio, DATE_FORMAT(L.Fecha, '%d/%m/%Y') AS Fecha, CONCAT(P.Nombre,' ', P.ApellidoMaterno) AS Empleado FROM LOTE AS L INNER JOIN ARTICULO AS A on L.Articulo = A.IdArticulo INNER JOIN EMPLEADO AS E on L.Empleado = E.IdEmpleado INNER JOIN PERSONA AS P on E.IdPersona = P.IdPersona WHERE A.IdArticulo = ARTICULOIN AND L.Cantidad >0;
+       SELECT L.IdLote, A.Articulo, CONCAT(FORMAT(L.Cantidad,2),' ', A.Unidad) AS CantidadActual, L.Cantidad AS CantidadNumber, CONCAT(FORMAT(L.CantidadInicial, 2), ' ', A.Unidad) AS CantidadInicial, FORMAT(L.Precio,2) AS Precio, DATE_FORMAT(L.Fecha, '%d/%m/%Y') AS Fecha, CONCAT(P.Nombre,' ', P.ApellidoMaterno) AS Empleado FROM LOTE AS L INNER JOIN ARTICULO AS A on L.Articulo = A.IdArticulo INNER JOIN EMPLEADO AS E on L.Empleado = E.IdEmpleado INNER JOIN PERSONA AS P on E.IdPersona = P.IdPersona WHERE A.IdArticulo = ARTICULOIN AND L.Cantidad >0;
        SELECT IdArticulo AS Id, Articulo, CONCAT(FORMAT(EXISTENCIA,2),' ', Unidad ) AS Existencia, CANTIDADLOTES AS Cantidad, FORMAT(INVERSION,2) AS Inversion FROM ARTICULO WHERE IdArticulo = ARTICULOIN;
     END;
 

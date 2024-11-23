@@ -71,7 +71,7 @@ const handleChange = (e: any) => {
         >
           <Search size={44} />
         </button>
-        <AddArticuloModal />
+        <AddArticuloModal CategoriaModalProp={categoria}/>
       </div>
       <div>
             <table>

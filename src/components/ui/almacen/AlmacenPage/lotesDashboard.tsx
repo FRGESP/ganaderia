@@ -69,7 +69,7 @@ function LotesDashboard({ Rol, IdArticulo }: LotesDashboardProps) {
 
   //Guarda la informacion de los inputs de la cantidad actual
   const [inputLoteCantidad, setInputLoteCantidad] = useState<{
-    [key: string]: number;
+    [key: number]: number;
   }>({});
 
   //Controla el cambio del input
@@ -84,7 +84,7 @@ function LotesDashboard({ Rol, IdArticulo }: LotesDashboardProps) {
   const handleChangeCantidad = (e: any) => {
     setInputLoteCantidad({
       ...inputLoteCantidad,
-      [e.target.name]: e.target.value,
+      [e.target.name]: Number(e.target.value),
     });
   };
 
@@ -216,12 +216,12 @@ function LotesDashboard({ Rol, IdArticulo }: LotesDashboardProps) {
 
       setInputLoteCantidad((prevInputValues) => ({
         ...prevInputValues,
-        [lote.IdLote]: lote.CantidadNumber,
+        [lote.IdLote]: Number(lote.CantidadNumber),
       }));
 
       setOriginalLoteCantidad((prevCantidad) => ({
         ...prevCantidad,
-        [lote.IdLote]: lote.CantidadNumber,
+        [lote.IdLote]: Number(lote.CantidadNumber),
       }));
     });
   };
@@ -324,7 +324,7 @@ function LotesDashboard({ Rol, IdArticulo }: LotesDashboardProps) {
                     />
                   )}
                 </td>
-                <td>{lote.CantidadInicial} Kg</td>
+                <td>{lote.CantidadInicial}</td>
                 {Rol == 1 && <td>${lote.Precio}</td>}
                 <td>
                   <div className="flex justify-center">
