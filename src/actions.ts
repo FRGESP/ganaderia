@@ -158,3 +158,10 @@ export const addLote = async (articulo:number, cantidad:any, precio:any) => {
   const response = await axios.post(`${process.env.URL}/api/users/almacen/almacenPage/lotes/${articulo}`, {Cantidad: cantidad, Precio: precio, Empleado: session.userId, Metodo: "Add"});
   return response.status;
 }
+
+//Añadir al historial médico
+export const addHistorial = async (arete:string, medicamento:any, cantidad:any) => {
+  const session = await getsession();
+  const response = await axios.post(`${process.env.URL}/api/entradas/corrales/animales/medicamento`, {Arete: arete, Medicamento: medicamento, Cantidad: cantidad, Empleado: session.userId});
+  return response.data;
+}

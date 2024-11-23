@@ -277,7 +277,7 @@ function LotesDashboard({ Rol, IdArticulo }: LotesDashboardProps) {
               : `$${articulo?.Inversion}`}
           </p>
         )}
-        {articulo?.Cantidad == 0 ? (
+        {lotes.length == 0 ? (
           <button
             className="bg-red-600 hover:bg-red-700 rounded-md ml-3"
             onClick={handleDeleteArticulo}

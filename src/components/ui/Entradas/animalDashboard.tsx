@@ -5,6 +5,7 @@ import axios from "axios";
 import { Check, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import AddMedicamentoModal from "@/components/ui/Entradas/addMedicamento";
 
 interface AnimalDashboardProps {
   AreteAnimal: string;
@@ -13,7 +14,6 @@ interface AnimalDashboardProps {
 }
 
 function AnimalDashboard({ AreteAnimal, Admin, Rol }: AnimalDashboardProps) {
-
   const ruta =
     Rol == 1
       ? "/users/admin/ganado"
@@ -49,11 +49,24 @@ function AnimalDashboard({ AreteAnimal, Admin, Rol }: AnimalDashboardProps) {
     Id: number;
   }
 
+  //Interface para los medicamentos
+  interface Medicamentos {
+    Id: number;
+    Medicamento: string;
+    Cantidad: string;
+    Empleado: string;
+    Gasto: number;
+    Fecha: string;
+  }
+
   //Guarda la información del animal
   const [animal, setAnimal] = useState<Animal>();
 
   //Guarda la información de la alimentación
   const [alimentacion, setAlimentacion] = useState<Alimentacion[]>([]);
+
+  //Guarda la información de los medicamentos
+  const [medicamentos, setMedicamentos] = useState<Medicamentos[]>([]);
 
   //Controla el estado de edición
   const [isEditing, setIsEditing] = useState(false);
@@ -78,18 +91,28 @@ function AnimalDashboard({ AreteAnimal, Admin, Rol }: AnimalDashboardProps) {
     const response = await axios.get(
       `/api/entradas/corrales/animales/${AreteAnimal}`
     );
+    console.log(response.data);
     setAnimal(response.data[0][0]);
     inputValues.Meses = response.data[0][0].Meses;
     inputValues.Estado = response.data[0][0].EstadoId;
     inputValues.Peso = response.data[0][0].Peso;
     console.log(response.data[1]);
     setAlimentacion(response.data[1]);
+    setMedicamentos(response.data[2]);
   };
 
   const handleEditAnimal = async () => {
-    if(confirm(`Se actualizarán los datos del animal ${AreteAnimal}`)) {
-      const response = await axios.put(`/api/entradas/corrales/animales/${AreteAnimal}`, {Meses: inputValues.Meses, Estado: inputValues.Estado, Sexo: animal?.Sexo, Peso: inputValues.Peso});
-      if(response.status == 200){
+    if (confirm(`Se actualizarán los datos del animal ${AreteAnimal}`)) {
+      const response = await axios.put(
+        `/api/entradas/corrales/animales/${AreteAnimal}`,
+        {
+          Meses: inputValues.Meses,
+          Estado: inputValues.Estado,
+          Sexo: animal?.Sexo,
+          Peso: inputValues.Peso,
+        }
+      );
+      if (response.status == 200) {
         toast({
           title: "Animal actualizado",
           description: "El animal ha sido actualizado",
@@ -106,7 +129,7 @@ function AnimalDashboard({ AreteAnimal, Admin, Rol }: AnimalDashboardProps) {
       }
     }
     getAnimal();
-  } 
+  };
 
   useEffect(() => {
     getAnimal();
@@ -158,7 +181,12 @@ function AnimalDashboard({ AreteAnimal, Admin, Rol }: AnimalDashboardProps) {
                 {!isEditing ? (
                   animal?.Estado
                 ) : (
-                  <select className="border border-black rounded-md py-1" defaultValue={animal?.EstadoId} onChange={handleChange} name="Estado">
+                  <select
+                    className="border border-black rounded-md py-1"
+                    defaultValue={animal?.EstadoId}
+                    onChange={handleChange}
+                    name="Estado"
+                  >
                     <option value="1">Saludable</option>
                     <option value="2">Enfermo</option>
                     <option value="3">Muerto</option>
@@ -181,7 +209,9 @@ function AnimalDashboard({ AreteAnimal, Admin, Rol }: AnimalDashboardProps) {
                 )}
               </td>
               {Admin && (
-                <td>{!animal?.Precio ? "Sin registro" : `$${animal?.Precio}`}</td>
+                <td>
+                  {!animal?.Precio ? "Sin registro" : `$${animal?.Precio}`}
+                </td>
               )}
               {animal?.Precio && Admin ? <td>${animal.PrecioSugerido}</td> : ""}
               <td>
@@ -192,7 +222,10 @@ function AnimalDashboard({ AreteAnimal, Admin, Rol }: AnimalDashboardProps) {
                         ? "bg-yellow-600 hover:bg-yellow-700"
                         : "bg-acento hover:bg-green-600"
                     } rounded-md p-1 max-h-10`}
-                    onClick={() => {setIsEditing(!isEditing); isEditing ? handleEditAnimal() : ''} }
+                    onClick={() => {
+                      setIsEditing(!isEditing);
+                      isEditing ? handleEditAnimal() : "";
+                    }}
                   >
                     {!isEditing ? (
                       <Pencil className="text-white h-7 w-7" />
@@ -206,7 +239,7 @@ function AnimalDashboard({ AreteAnimal, Admin, Rol }: AnimalDashboardProps) {
           </tbody>
         </table>
       </div>
-      <div className="w-full grid grid-cols-2 gap-5">
+      <div className="w-full grid grid-cols-2 gap-5 mt-5">
         <div>
           <p className="font-bold text-3xl mt-5 text-center mb-5">
             Alimentación
@@ -237,12 +270,42 @@ function AnimalDashboard({ AreteAnimal, Admin, Rol }: AnimalDashboardProps) {
           )}
         </div>
         <div>
-          <p className="font-bold text-3xl mt-5 text-center mb-5">
-            Medicamento
-          </p>
-          <div className="min-h-20 w-full h-[calc(100%-4.7rem)] flex justify-center items-center border border-black rounded-md">
-            <p className="font-bold text-3xl mt-5">Sin datos aún</p>
+          <div className="flex justify-center items-center">
+            <p className="font-bold text-3xl mt-5 text-center mb-5">
+              Medicamento
+            </p>
+            <AddMedicamentoModal AreteProp={AreteAnimal}/>
           </div>
+          {medicamentos.length > 0 ? (
+            <table>
+              <thead>
+                <tr>
+                  <th>Historial</th>
+                  <th>Medicamento</th>
+                  <th>Cantidad</th>
+                  <th>Fecha</th>
+                  {Admin && <th>Empleado</th>}
+                  {Admin && <th>Gasto</th>}
+                </tr>
+              </thead>
+              <tbody>
+                {medicamentos.map((medicamento) => (
+                  <tr key={medicamento.Id}>
+                    <td>{medicamento.Id}</td>
+                    <td>{medicamento.Medicamento}</td>
+                    <td>{medicamento.Cantidad}</td>
+                    <td>{medicamento.Fecha}</td>
+                    {Admin && <td>{medicamento.Empleado}</td>}
+                    {Admin && <td>${medicamento.Gasto}</td>}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <div className="min-h-20 w-full h-[calc(100%-4.7rem)] flex justify-center items-center border border-black rounded-md">
+              <p className="font-bold text-3xl mt-5">Sin datos aún</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

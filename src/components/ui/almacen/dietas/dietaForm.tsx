@@ -173,7 +173,7 @@ function DietaForm({ idDieta }: DietaFormProps) {
     });
   };
 
-  //Controla el subit de un articulo
+  //Controla el submit de un artículo
   const handleArticuloSubmit = async () => {
     if (inputValue.Articulo == "") {
       toast({
