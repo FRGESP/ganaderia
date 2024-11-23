@@ -3,10 +3,14 @@
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Plus } from "lucide-react";
+import { addLote } from "@/actions";
 
+//Interfaz de los props
+interface AddLoteModalProps {
+    ArticuloId: number;
+}
 
-
-function PlantillaModal() {
+function AddLoteModal({ ArticuloId }: AddLoteModalProps) {
   const { toast } = useToast();
 
   //Controla el estado del modal
@@ -25,6 +29,34 @@ function PlantillaModal() {
             [e.target.name]: e.target.value,
         });
     };
+
+    //Para agregar un lote
+    const handleAddLote = async () => {
+        if (inputValue.cantidad == "" || inputValue.precio == "") {
+            toast({
+                title: "Campos vacíos",
+                description: "Hay campos vacíos",
+                variant: "destructive",
+            });
+            return;
+        }
+        const response = await addLote(ArticuloId, inputValue.cantidad, inputValue.precio);
+        if (response == 200) {
+            closeModal();
+            toast({
+                title: "Lote agregado",
+                description: "El lote ha sido agregado correctamente",
+                variant: "success",
+            });
+            window.location.reload();
+        } else {
+            toast({
+                title: "Error",
+                description: "No se pudo agregar el lote",
+                variant: "destructive",
+            });
+        }
+    }
 
   //Funcion para abrir el modal
   const openModal = () => {
@@ -66,6 +98,7 @@ function PlantillaModal() {
                       placeholder="Inserte la cantidad"
                       autoFocus
                       name="cantidad"
+                      onChange={handleChange}
                     />
                 </div>
                 <div className="w-full mt-3">
@@ -79,8 +112,8 @@ function PlantillaModal() {
                       type="number"
                       className="border border-black rounded-md w-full py-2 px-2"
                       placeholder="Inserte el precio total de compra"
-                      autoFocus
                       name="precio"
+                      onChange={handleChange}
                     />
                 </div>
                 <div className="flex gap-5 justify-center">
@@ -91,7 +124,7 @@ function PlantillaModal() {
                     Cancelar
                   </button>
                   <button
-                    onClick={closeModal}
+                    onClick={handleAddLote}
                     className="px-[20%] py-2 font-semibold text-white bg-acento rounded hover:bg-acentohover mt-5"
                   >
                     Aceptar
@@ -106,4 +139,4 @@ function PlantillaModal() {
   );
 }
 
-export default PlantillaModal;
+export default AddLoteModal;

@@ -38,7 +38,6 @@ const [articulos, setArticulos] = useState<Articulos[]>([]);
 //Obtiene los articulos
 const getArticulos = async () => {
     const response = await axios.put("/api/users/almacen/almacenPage", {Nombre: inputValue.search});
-    console.log(response.data[0]);
     setArticulos(response.data[0]);
 }
 
@@ -77,7 +76,7 @@ const handleChange = (e: any) => {
                     <tr>
                         <th>Artículo</th>
                         <th>Existencia</th>
-                        {Rol == 1 ? <th>Inversión</th> : null}
+                        {Rol == 1 ? <th>Inversión actual</th> : null}
                         <th>Lotes</th>
                     </tr>
                 </thead>
@@ -85,8 +84,8 @@ const handleChange = (e: any) => {
                     {articulos.map((articulo) => (
                         <tr key={articulo.Id}>
                             <td>{articulo.Articulo}</td>
-                            <td>{articulo.Existencia}</td>
-                            {Rol == 1 ? <td>${articulo.Inversion}</td> : null}
+                            <td>{articulo.Existencia ? (articulo.Existencia) : 'Sin existencias'}</td>
+                            {Rol == 1 ? <td>{articulo.Existencia ? (`$${articulo.Inversion}`): 'Sin inversión'}</td> : null}
                             <td className="flex justify-center">
                   <Link className=" bg-acento hover:bg-green-700 rounded-sm" href={`${ruta}/${articulo.Id}`}>
                     <MoveRight className="text-white m-1" />

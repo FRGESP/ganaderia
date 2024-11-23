@@ -43,7 +43,6 @@ export async function POST(req) {
 export async function PUT(req) {
     try{
         const request = await req.json()
-        console.log(request)
             const result = await conn.query('CALL EDITCANTIDADFROMDIETA(?,?)', [request.Id, request.Cantidad])
             return NextResponse.json({ message: 'Articulo agregado a la dieta' }, { status: 200 })
 

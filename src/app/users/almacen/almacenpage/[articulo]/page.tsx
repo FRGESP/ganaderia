@@ -1,11 +1,13 @@
+import LotesDashboard from "@/components/ui/almacen/AlmacenPage/lotesDashboard";
+
 interface Params {
-    articulo: string;
+    articulo: number;
 }
 
 function ArticuloAlmacenPage({params}: {params: Params}) {
   return (
     <div>
-      {params.articulo}
+        <LotesDashboard IdArticulo={params.articulo} Rol={2} />
     </div>
   )
 }

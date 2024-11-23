@@ -151,3 +151,10 @@ export const deleteReemo = async () => {
   session.sexoAnimal = "";
   await session.save();
 }
+
+//Añadir un lote
+export const addLote = async (articulo:number, cantidad:any, precio:any) => {
+  const session = await getsession();
+  const response = await axios.post(`${process.env.URL}/api/users/almacen/almacenPage/lotes/${articulo}`, {Cantidad: cantidad, Precio: precio, Empleado: session.userId, Metodo: "Add"});
+  return response.status;
+}
