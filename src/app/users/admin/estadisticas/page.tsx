@@ -1,9 +1,9 @@
-import React from 'react'
+import EstadisticasDashboard from "@/components/ui/admin/Estadisticas/estadisticasDashboard"
 
 function estadisticasAdmin() {
   return (
     <div>
-      Esta es la página de estadisticas de administración
+      <EstadisticasDashboard />
     </div>
   )
 }

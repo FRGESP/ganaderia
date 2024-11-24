@@ -92,13 +92,15 @@ function AnimalDashboard({ AreteAnimal, Admin, Rol }: AnimalDashboardProps) {
       `/api/entradas/corrales/animales/${AreteAnimal}`
     );
     console.log(response.data);
-    setAnimal(response.data[0][0]);
-    inputValues.Meses = response.data[0][0].Meses;
-    inputValues.Estado = response.data[0][0].EstadoId;
-    inputValues.Peso = response.data[0][0].Peso;
-    console.log(response.data[1]);
-    setAlimentacion(response.data[1]);
-    setMedicamentos(response.data[2]);
+    if (response.data[0].length > 0) {
+      setAnimal(response.data[0][0]);
+      inputValues.Meses = response.data[0][0].Meses;
+      inputValues.Estado = response.data[0][0].EstadoId;
+      inputValues.Peso = response.data[0][0].Peso;
+      console.log(response.data[1]);
+      setAlimentacion(response.data[1]);
+      setMedicamentos(response.data[2]);
+    }
   };
 
   const handleEditAnimal = async () => {
@@ -274,7 +276,7 @@ function AnimalDashboard({ AreteAnimal, Admin, Rol }: AnimalDashboardProps) {
             <p className="font-bold text-3xl mt-5 text-center mb-5">
               Medicamento
             </p>
-            <AddMedicamentoModal AreteProp={AreteAnimal}/>
+            <AddMedicamentoModal AreteProp={AreteAnimal} />
           </div>
           {medicamentos.length > 0 ? (
             <table>

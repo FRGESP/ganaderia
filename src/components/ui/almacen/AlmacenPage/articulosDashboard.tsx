@@ -85,7 +85,7 @@ const handleChange = (e: any) => {
                 </thead>
                 <tbody>
                     {articulos.map((articulo) => (
-                        <tr key={articulo.Id}>
+                        <tr key={articulo.Id} className="hover:bg-gray-100">
                             <td>{articulo.Articulo}</td>
                             <td>{articulo.Existencia ? (articulo.Existencia) : 'Sin existencias'}</td>
                             {Rol == 1 ? <td>{articulo.Existencia ? (`$${articulo.Inversion}`): 'Sin inversión'}</td> : null}
