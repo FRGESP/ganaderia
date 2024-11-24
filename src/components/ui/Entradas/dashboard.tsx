@@ -202,7 +202,7 @@ function Dashboard() {
 
   return (
     <div className="flex h-[90vh]">
-      <div className="w-[55%] border border-black overflow-x-auto">
+      <div className="w-[55%]  overflow-x-auto">
         <div className={`${reemo === false ? "" : "hidden"}`}>
           <div className="flex justify-center mt-[20%]">
             <div className="border-2 border-black w-[80%] grid grid-cols-1 align-center p-4 shadow-lg">
