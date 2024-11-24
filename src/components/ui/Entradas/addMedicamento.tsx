@@ -27,7 +27,7 @@ function AddMedicamentoModal({ AreteProp }: AddMedicamentoModalProps) {
   //Opciones de los medicamentos
   const [MedicamentosOptions, setMedicamentosOptions] = useState<any[]>([]);
 
-  //Guarda la informacion de la unidad
+  //Guarda la información de la unidad
   const [unidad, setUnidad] = useState("");
 
   //Guarda la informacion del input

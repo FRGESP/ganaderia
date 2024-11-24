@@ -44,19 +44,7 @@ const itemsAlmacen = [
     url: "/users/almacen/ganado",
     icon: "/assets/Admin/Ganado.png",
     iconBold: "/assets/Admin/GanadoVerde.png",
-  },
-  {
-    title: "Pedidos",
-    url: "/users/almacen/pedidos",
-    icon: "/assets/Almacen/Pedidos.png",
-    iconBold: "/assets/Almacen/PedidosVerde.png",
-  },
-  {
-    title: "Estadísticas",
-    url: "/users/almacen/estadisticas",
-    icon: "/assets/Almacen/Estadisticas.png",
-    iconBold: "/assets/Almacen/EstadisticasVerde.png",
-  },
+  }
 ];
 
 const itemsAdmin = [

@@ -1,9 +1,9 @@
-import React from 'react'
+import VentasDashboard from "@/components/ui/admin/Ventas/ventasDashboard"
 
 function ventasPage() {
   return (
     <div>
-        Esta es la página de ventas 
+        <VentasDashboard/>
     </div>
   )
 }
