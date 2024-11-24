@@ -71,7 +71,10 @@ function VentasDashboard() {
   const [CorralInfo, setCorralInfo] = useState<CorralInfo>();
 
   //Estado si está imprimiento
-    const [isPrinting, setIsPrinting] = useState(true);
+    const [isNotPrinting, setIsNotPrinting] = useState(true);
+
+    //Guarda la informacion del último id de la venta
+    const [lastId, setLastId] = useState(0);
 
   const corralesOptions = async () => {
     const response = await axios.get("/api/users/admin/ventas/corrales");
@@ -117,7 +120,7 @@ function VentasDashboard() {
 
   //Controla la venta del corral
   const handleVenta = async () => {
-    setIsPrinting(false);
+    
     if (
       inputValue.precioFinal == 0 ||
       inputValue.psg == "" ||
@@ -136,13 +139,14 @@ function VentasDashboard() {
     }
     const response = await axios.post('/api/users/admin/ventas', {Corral: corralSelected?.Id, Reemo: CorralInfo?.REEMO, Precio: inputValue.precioFinal, Psg: inputValue.psg, Nombre: inputValue.nombre, Razon: inputValue.razonSocial, Municipio: inputValue.municipio, Localidad: inputValue.localidad, Estado: inputValue.estado});
     if(response.status == 200){
+        setLastId(response.data[0][0].LastId);
         toast({
             title: "Venta realizada",
             description: "La venta ha sido realizada correctamente",
             variant: "success",
         });
-        exportPDF();
-        window.location.reload();
+        
+        
     } else{
         toast({
             title: "Error",
@@ -151,6 +155,20 @@ function VentasDashboard() {
         });
     }
   };
+
+  useEffect(() => {
+    if (lastId != 0) {
+    setIsNotPrinting(false);
+
+    }
+  }, [lastId]);
+
+  useEffect(() => {
+    if (!isNotPrinting) {
+      exportPDF();
+      window.location.reload();
+    }
+  }, [isNotPrinting]);
 
   useEffect(() => {
     if (corralSelected?.Id != "") {
@@ -372,11 +390,14 @@ function VentasDashboard() {
         )}
       </div>
       <PDFExport ref={pdfExportComponent} paperSize="Letter">
-        <div className="p-7" hidden={isPrinting}>
+        <div className="p-7" hidden={isNotPrinting}>
           <div className="flex justify-center items-center w-full mb-10">
             <img src="/assets/Login/Logo.png" alt="LogoGanaderia" width={150} />
           </div>
           <div>
+          <p className="text-xl">
+              <strong>Venta:</strong>{lastId}
+            </p>
             <p className="text-xl">
               <strong>PSG:</strong>{inputValue.psg}
             </p>
