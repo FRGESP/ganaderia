@@ -115,7 +115,6 @@ function LotesDashboard({ Rol, IdArticulo }: LotesDashboardProps) {
 
   //Borrando articulo
   const handleDeleteArticulo = async () => {
-    console.log(IdArticulo);
     if (confirm("¿Estás seguro de que deseas eliminar este artículo?")) {
       const response = await axios.delete(
         `/api/users/almacen/almacenPage/${IdArticulo}`

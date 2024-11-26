@@ -39,7 +39,6 @@ function ButtonEditEmpleados({ id }: ButtonEditEmpleadosProps) {
   const router = useRouter();
 
   const handleChange = (e: any) => {
-    //console.log(e.target.value, e.target.name)
     setEmpleado({
       ...empleado,
       [e.target.name]: e.target.value,

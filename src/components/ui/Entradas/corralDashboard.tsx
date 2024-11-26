@@ -90,7 +90,6 @@ function DashboardCorral({ Rol, CorralSelected }: DashboardProps) {
       setCorralData(response.data[0][0]);
       setCorralAnimals(response.data[1]);
     }
-    console.log(response.data);
   };
 
   //Cuando el usuario edita el nombre del corral

@@ -74,7 +74,6 @@ function DashboardCorrales({ Rol }: DashboardProps) {
   }
 
   const getCorrales = async () => {
-    console.log(inputValue.search);
     const response = await axios.post("/api/users/entradas/corrales", {
       Nombre: inputValue.search,
     });

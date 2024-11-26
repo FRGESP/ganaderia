@@ -57,7 +57,6 @@ function AddMedicamentoModal({ AreteProp }: AddMedicamentoModalProps) {
     const response = await axios.get(
       "/api/entradas/corrales/animales/medicamento"
     );
-    console.log(response.data[0]);
     const ItOptions = response.data[0].map((item: any) => {
       return {
         value: item.Id,

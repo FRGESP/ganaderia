@@ -65,18 +65,14 @@ function FormulaModal({ CorralProp, CantidadAnimalesProp }: FormulaModalProps) {
 
   //Cuando se alimenta el corral
   const handleAlimentacion = async () => {
-    console.log("alimentando");
     const response = await axios.put(`/api/entradas/corrales`, {
       Corral: CorralProp,
     });
-    console.log(response.data[0][0]);
     if (response.data[0][0].Cantidad) {
       setExistenFaltantes(true);
       setFaltantes(response.data[0]);
-      console.log("faltantes");
     } else {
       setFormula(response.data[0]);
-      console.log("formula");
     }
     openModal();
   };

@@ -196,7 +196,6 @@ function GuiaForm({ idGuia }: GuiaFormProps) {
   };
 
   const handleSubimit = async () => {
-    console.log(inputGuia)
     if (Object.keys(editPrice).length !== animalesInfo.length) {
       toast({
         title: "Precios faltantes",

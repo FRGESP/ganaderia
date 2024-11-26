@@ -31,10 +31,8 @@ function GuiasDashboard() {
   };
 
   const getGuias = async () => {
-    console.log(inputValues);
     const response = await axios.post("/api/users/admin/guias", inputValues);
     setGuias(response.data);
-    console.log(response.data);
   };
 
   //Para que se ejeucte cada vez que se renderiza

@@ -91,13 +91,11 @@ function AnimalDashboard({ AreteAnimal, Admin, Rol }: AnimalDashboardProps) {
     const response = await axios.get(
       `/api/entradas/corrales/animales/${AreteAnimal}`
     );
-    console.log(response.data);
     if (response.data[0].length > 0) {
       setAnimal(response.data[0][0]);
       inputValues.Meses = response.data[0][0].Meses;
       inputValues.Estado = response.data[0][0].EstadoId;
       inputValues.Peso = response.data[0][0].Peso;
-      console.log(response.data[1]);
       setAlimentacion(response.data[1]);
       setMedicamentos(response.data[2]);
     }
