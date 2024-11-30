@@ -18,7 +18,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
           <Toaster />
         </main>
         <footer className=" w-full bg-opacity-0 text-black py-3 text-left bottom-0 absolute">
-      © 2024 BlackWaves. Ganaderia El Rosario.
+      © 2024 BlackWaves. Ganadería El Rosario.
     </footer>
       </div>
     </SidebarProvider>

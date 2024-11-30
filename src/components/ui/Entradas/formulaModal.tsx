@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
+import { set } from "zod";
 
 //Interfaz para el modal
 interface FormulaModalProps {
@@ -61,6 +62,7 @@ function FormulaModal({ CorralProp, CantidadAnimalesProp }: FormulaModalProps) {
       });
     }
     setIsOpen(false);
+    setExistenFaltantes(false);
   };
 
   //Cuando se alimenta el corral
