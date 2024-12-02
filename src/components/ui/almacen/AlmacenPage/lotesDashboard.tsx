@@ -125,7 +125,7 @@ function LotesDashboard({ Rol, IdArticulo }: LotesDashboardProps) {
           description: "El articulo ha sido eliminado correctamente",
           variant: "success",
         });
-        router.push(ruta);
+        router.back();
       } else {
         toast({
           title: "Error",
