@@ -155,7 +155,7 @@ function LotesDashboard({ Rol, IdArticulo }: LotesDashboardProps) {
       return;
     }
     const response = await axios.put(
-      `/api/users/almacen/almacenPage/lotes/${IdArticulo}`,
+      `/api/users/almacen/almacenPage/lotes/${IdLote}`,
       { Cantidad: inputLoteCantidad[IdLote] }
     );
     if (response.status == 200) {
